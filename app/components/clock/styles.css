@@ -1,0 +1,12 @@
+.clock .date,
+.clock .time{
+    text-align: center;
+}
+
+.clock .date{
+    font-size: 1rem;
+}
+
+.clock .time{ 
+    font-size: 2rem;
+}
