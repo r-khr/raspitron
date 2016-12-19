@@ -46,7 +46,7 @@ npm run dev
 
 ```
 // Build projest using
-npm run Build
+npm run build
 ```
 
 ## Configurations
