@@ -27,7 +27,8 @@
     "prefer-template": "off",
     "no-debugger": "off",
     "linebreak-style": "off",
-    "jsx-quotes": "off"
+    "jsx-quotes": "off",
+    "react/no-unused-prop-types": "off"
   },
   "plugins": [
     "flowtype-errors",

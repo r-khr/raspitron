@@ -5,10 +5,10 @@ import { routerMiddleware, push } from 'react-router-redux';
 import createLogger from 'redux-logger';
 import rootReducer from '../reducers';
 
-import * as raspiActions from '../actions/raspi';
+import * as statusActions from '../actions/status';
 
 const actionCreators = {
-  ...raspiActions,
+  ...statusActions,
   push
 };
 

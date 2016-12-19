@@ -1,12 +1,15 @@
 // @flow
-import { get } from '../rest';
+import { get, post } from '../rest';
 
 
 export function getStatus() {
   return get('status');
 }
 
-export function setStatus() {
-  return fetch('http://192.168.2.157/status')
-      .then(response => response.json());
+export function setPinStatus(pinNumber, pinAction) {
+  return post(['status', pinNumber, pinAction], {});
+}
+
+export function postStatus(json) {
+  return post('status', json);
 }
