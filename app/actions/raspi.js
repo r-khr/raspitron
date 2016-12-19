@@ -1,5 +1,5 @@
 // @flow
-import { getStatus } from '../api/api.status';
+import { getStatus } from '../api/endpoints/status';
 
 export const SET_STATUS = 'SET_STATUS';
 export const REQUEST_STATUS = 'REQUEST_STATUS';

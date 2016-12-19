@@ -1,6 +1,6 @@
 // @flow
 import fetch from 'isomorphic-fetch';
-import { API_BASE } from '../constants/raspberrypi';
+import API_BASE from '../constants/raspberry_pi';
 
 // Common Header
 const headers = new Headers();

@@ -1,9 +1,9 @@
 // @flow
-import { get } from './rest';
+import { get } from '../rest';
 
 
 export function getStatus() {
-  return get('/status');
+  return get('status');
 }
 
 export function setStatus() {
