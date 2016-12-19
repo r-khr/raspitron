@@ -22,7 +22,6 @@ class RaspiStatus extends Component {
     const label = 'Fan';
     const isOn = true;
     function togglePin() {
-      console.log('stuff');
     }
 
     return (

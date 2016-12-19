@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch';
 import { API_BASE } from '../constants/raspberrypi';
 
 // Common Header
-let headers = new Headers();
+const headers = new Headers();
 headers.append('Content-Type', 'application/json');
 
 
@@ -22,8 +22,8 @@ export function get(endpoint) {
 export function post(endpoint, body) {
   return fetch(getEndpoint(endpoint), {
     method: 'POST',
-    body,
-    headers
+    headers,
+    body
   })
       .then(response => response.json());
 }

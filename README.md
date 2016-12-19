@@ -18,8 +18,8 @@ Server Folder provides the Flask Python server that will run on the Raspberry Pi
 // Install Flask
 pip install flask
 
-// cd into server
-cd server
+// cd into raspberry pi flask server folder
+cd raspi
 
 // run flask server
 sudo python index.py
