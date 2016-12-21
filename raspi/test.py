@@ -47,14 +47,12 @@ def post_status(pin_number, pin_action):
     pin_number = int(pin_number)
     pin_value = 0
 
-    if pin_action == "on":
-        pin_value = 1
-    elif pin_action == "off":
-        pin_value = 0
-
     for pin in PINS:
         if pin['number'] == pin_number:
-            pin['state'] = pin_value
+            if pin_action == "on":
+                pin['state'] = 1
+            elif pin_action == "off":
+                pin['state'] = 0
 
     template_data = {
         'pins' : PINS
