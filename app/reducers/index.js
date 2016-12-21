@@ -1,10 +1,10 @@
 // @flow
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
-import raspi from './raspi';
+import status from './status';
 
 const rootReducer = combineReducers({
-  raspi,
+  status,
   routing
 });
 

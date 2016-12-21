@@ -2,7 +2,7 @@
 
 This project provides a foundation for controlling Raspberry Pi GPIO using an Electron Application.
 
-There are two pieces to this project
+There are two pieces to this project:
 
 1. [Flask Server](http://flask.pocoo.org/)
     - Provides API endpoints that controll Raspberry Pi Hardware

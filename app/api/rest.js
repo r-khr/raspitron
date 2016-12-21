@@ -5,6 +5,7 @@ import API_BASE from '../constants/raspberry_pi';
 // Common Header
 const headers = new Headers();
 headers.append('Content-Type', 'application/json');
+headers.append('Accept', 'application/json');
 
 
 // --------------------------------------------------
@@ -19,7 +20,8 @@ export function get(endpoint) {
     .then(response => response.json());
 }
 
-export function post(endpoint, body) {
+export function post(endpoint, json) {
+  const body = JSON.stringify(json);
   return fetch(getEndpoint(endpoint), {
     method: 'POST',
     headers,
@@ -33,5 +35,5 @@ export function post(endpoint, body) {
 // --------------------------------------------------
 
 function getEndpoint(endpoint) {
-  return Array.isArray(endpoint) ? API_BASE + endpoint.json('/') : API_BASE + endpoint;
+  return Array.isArray(endpoint) ? API_BASE + endpoint.join('/') : API_BASE + endpoint;
 }
