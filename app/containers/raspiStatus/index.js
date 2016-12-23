@@ -17,7 +17,9 @@ class RaspiStatus extends Component {
     if (this.props.isLoading) {
       // If loading
       return (
-        <p>Loading Raspberry Pi GPIO Pin Status</p>
+        <div className={styles.wrapper}>
+          <p>Loading Raspberry Pi GPIO Pin Status</p>
+        </div>
       );
     }
     const pins = this.props.pins.map((pin) => {
@@ -28,13 +30,15 @@ class RaspiStatus extends Component {
         this.props.setPin(number, action);
       }
 
-      return (<Pin
-        key={index}
-        number={pin.number}
-        label={pin.name}
-        isOn={isOn}
-        togglePin={updatePin.bind(this)}
-      />);
+      return (
+        <Pin
+          key={index}
+          number={pin.number}
+          label={pin.name}
+          isOn={isOn}
+          togglePin={updatePin.bind(this)}
+        />
+      );
     }
     );
     return (

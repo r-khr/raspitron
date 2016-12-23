@@ -38,6 +38,10 @@ npm install
 npm run hot-server
 npm run start-hot
 
+// Run python test server
+cd raspi
+sudo python test.py
+
 // Otherwise
 npm run dev
 ```
