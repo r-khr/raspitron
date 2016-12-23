@@ -14,36 +14,36 @@ class RaspiStatus extends Component {
   }
 
   render() {
-    if (this.props.isLoading) {
-      // If loading
+    if (Array.isArray(this.props.pins) && !this.props.isLoading) {
+      const pins = this.props.pins.map((pin) => {
+        const index = this.props.pins.indexOf(pin);
+        const isOn = pin.state === 0;
+
+        function updatePin(number, action) {
+          this.props.setPin(number, action);
+        }
+
+        return (
+          <Pin
+            key={index}
+            number={pin.number}
+            label={pin.name}
+            isOn={isOn}
+            togglePin={updatePin.bind(this)}
+          />
+        );
+      }
+      );
       return (
         <div className={styles.wrapper}>
-          <p>Loading Raspberry Pi GPIO Pin Status</p>
+          { pins }
         </div>
       );
     }
-    const pins = this.props.pins.map((pin) => {
-      const index = this.props.pins.indexOf(pin);
-      const isOn = pin.state === 0;
-
-      function updatePin(number, action) {
-        this.props.setPin(number, action);
-      }
-
-      return (
-        <Pin
-          key={index}
-          number={pin.number}
-          label={pin.name}
-          isOn={isOn}
-          togglePin={updatePin.bind(this)}
-        />
-      );
-    }
-    );
+    // If loading
     return (
       <div className={styles.wrapper}>
-        { pins }
+        <p>Loading Raspberry Pi GPIO Pin Status</p>
       </div>
     );
   }
