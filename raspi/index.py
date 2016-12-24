@@ -41,23 +41,23 @@ def status():
     # Pass the template data into the template main.html and return it to the user
     return jsonify(**json_data)
 
-@APP.route("/status/<pin_number>/<pin_action>", methods=['POST'])
-def status_post(pin_number, pin_action):
-    """ Change pin status template """
-    pin_number = int(pin_number)
-    if pin_action == "on":
-        GPIO.output(pin_number, GPIO.HIGH)
-    if pin_action == "off":
-        GPIO.output(pin_number, GPIO.LOW)
+# @APP.route("/status/<pin_number>/<pin_action>", methods=['POST'])
+# def status_post(pin_number, pin_action):
+#     """ Change pin status template """
+#     pin_number = int(pin_number)
+#     if pin_action == "on":
+#         GPIO.output(pin_number, GPIO.HIGH)
+#     if pin_action == "off":
+#         GPIO.output(pin_number, GPIO.LOW)
 
-    for pin in PINS:
-        pin['state'] = GPIO.input(pin)
+#     for pin in PINS:
+#         pin['state'] = GPIO.input(pin['number'])
 
-    json_data = {
-        'pins' : PINS
-    }
+#     json_data = {
+#         'pins' : PINS
+#     }
 
-    return jsonify(**json_data)
+#     return jsonify(**json_data)
 
 @APP.route("/status/<pin_number>/<pin_action>", methods=['POST'])
 def post_pin_status(pin_number, pin_action):

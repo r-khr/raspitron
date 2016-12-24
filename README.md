@@ -4,9 +4,9 @@ This project provides a foundation for controlling Raspberry Pi GPIO using an El
 
 There are two pieces to this project:
 
-1. [Flask Server](http://flask.pocoo.org/)
+1. [Flask Server](http://flask.pocoo.org/) 'raspi/'
     - Provides API endpoints that controll Raspberry Pi Hardware
-2. [Electron Desktop Application](http://electron.atom.io/)
+2. [Electron Desktop Application](http://electron.atom.io/) 'app/'
     - Provides an electron application that communicates with endpoints
 
 
