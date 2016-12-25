@@ -15,7 +15,8 @@ const port = process.env.PORT || 3000;
 export default validate(merge(baseConfig, {
   debug: true,
 
-  devtool: 'cheap-module-eval-source-map',
+  // devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
 
   entry: [
     `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
@@ -57,6 +58,10 @@ export default validate(merge(baseConfig, {
           'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
           'sass-loader'
         ]
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file?name=/material-design-icons/iconfont/[name].[ext]'
       }
     ]
   },

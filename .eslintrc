@@ -28,7 +28,8 @@
     "no-debugger": "off",
     "linebreak-style": "off",
     "jsx-quotes": "off",
-    "react/no-unused-prop-types": "off"
+    "react/no-unused-prop-types": "off",
+    "no-console": "off"
   },
   "plugins": [
     "flowtype-errors",

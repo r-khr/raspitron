@@ -19,17 +19,17 @@ class RaspiStatus extends Component {
         const index = this.props.pins.indexOf(pin);
         const isOn = pin.state === 0;
 
-        function updatePin(number, action) {
+        function updatePin(number, _isOn) {
+          const action = _isOn ? 'on' : 'off';
           this.props.setPin(number, action);
         }
 
         return (
           <Pin
             key={index}
-            number={pin.number}
             label={pin.name}
             isOn={isOn}
-            togglePin={updatePin.bind(this)}
+            togglePin={updatePin.bind(this, pin.number, isOn)}
           />
         );
       }

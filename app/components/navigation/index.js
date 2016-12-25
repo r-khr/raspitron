@@ -12,6 +12,9 @@ class Navigation extends Component {
         <RtLink className={styles.link} href="#/">
           Dashboard
         </RtLink>
+        <RtLink className={styles.link} href="#/timer">
+          Timer
+        </RtLink>
       </RtNavigation>
     );
   }
