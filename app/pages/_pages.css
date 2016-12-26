@@ -2,6 +2,10 @@
     justify-content:  flex-start; 
 }
 
+.navDrawer{
+    width: 10px
+}
+
 .bar{
     justify-content:  space-between;
 }

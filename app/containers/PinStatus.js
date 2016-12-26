@@ -3,12 +3,12 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Pin from '../../components/pin';
-import styles from './styles.css';
-import * as statusActions from '../../actions/status';
+import PinSwitch from '../components/pinSwitch';
+import styles from './_container.css';
+import * as statusActions from '../actions/status';
 
 
-class RaspiStatus extends Component {
+class PinStatus extends Component {
   componentWillMount() {
     this.props.fetchStatus();
   }
@@ -18,6 +18,7 @@ class RaspiStatus extends Component {
       const pins = this.props.pins.map((pin) => {
         const index = this.props.pins.indexOf(pin);
         const isOn = pin.state === 0;
+        const subtitle = 'Pin #' + pin.number;
 
         function updatePin(number, _isOn) {
           const action = _isOn ? 'on' : 'off';
@@ -25,9 +26,11 @@ class RaspiStatus extends Component {
         }
 
         return (
-          <Pin
+          <PinSwitch
+            className={styles.element}
             key={index}
-            label={pin.name}
+            title={pin.name}
+            subtitle={subtitle}
             isOn={isOn}
             togglePin={updatePin.bind(this, pin.number, isOn)}
           />
@@ -49,7 +52,7 @@ class RaspiStatus extends Component {
   }
 }
 
-RaspiStatus.propTypes = {
+PinStatus.propTypes = {
   fetchStatus: PropTypes.func.isRequired,
   setPin: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
@@ -74,4 +77,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(statusActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RaspiStatus);
+export default connect(mapStateToProps, mapDispatchToProps)(PinStatus);

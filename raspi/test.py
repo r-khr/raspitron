@@ -7,28 +7,43 @@ APP = Flask(__name__)
 # Create a dictionary called pins to store the pin number, name, and pin state:
 PINS = [
     {
+        'number': 1,
+        'name': 'GPIO 01',
+        'state': 0
+    },
+    {
+        'number': 2,
+        'name': 'GPIO 02',
+        'state': 0
+    },
+    {
+        'number': 3,
+        'name': 'GPIO 03',
+        'state': 0
+    },
+    {
         'number': 4,
-        'name': 'GPIO04',
+        'name': 'GPIO 04',
         'state': 0
     },
     {
         'number': 14,
-        'name': 'GPIO14',
+        'name': 'GPIO 14',
         'state': 0
     },
     {
         'number': 15,
-        'name': 'GPIO15',
+        'name': 'GPIO 15',
         'state': 0
     },
     {
         'number': 17,
-        'name': 'GPIO17',
+        'name': 'GPIO 17',
         'state': 0
     },
     {
         'number': 18,
-        'name': 'GPIO18',
+        'name': 'GPIO 18',
         'state': 0
     }
 ]

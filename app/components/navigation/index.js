@@ -1,21 +1,16 @@
 // @flow
 
 import React, { Component } from 'react';
-import RtNavigation from 'react-toolbox/lib/navigation';
-import RtLink from 'react-toolbox/lib/link';
-import styles from './styles.css';
+import { List, ListItem } from 'react-toolbox/lib/list';
+// import styles from './styles.css';
 
 class Navigation extends Component {
   render() {
     return (
-      <RtNavigation type='vertical' className={styles.light}>
-        <RtLink className={styles.link} href="#/">
-          Dashboard
-        </RtLink>
-        <RtLink className={styles.link} href="#/timer">
-          Timer
-        </RtLink>
-      </RtNavigation>
+      <List selectable ripple>
+        <ListItem leftIcon={'home'} caption={'Dashboard'} to={'#/'} />
+        <ListItem leftIcon={'settings'} caption={'Settings'} to={'#/settings'} />
+      </List>
     );
   }
 }

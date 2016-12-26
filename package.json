@@ -1,8 +1,8 @@
 {
-  "name": "plantbox.io",
-  "productName": "PlantBoxElectron",
+  "name": "raspitron",
+  "productName": "Raspitron",
   "version": "0.10.1",
-  "description": "PlantBox helps you grow plants",
+  "description": "Raspitron",
   "main": "main.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
@@ -105,6 +105,7 @@
     "react-toolbox": "^1.2.5",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
+    "roboto-fontface": "^0.6.0",
     "sass-loader": "^4.0.2",
     "source-map-support": "^0.4.3",
     "style-loader": "^0.13.1"

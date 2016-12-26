@@ -1,11 +1,11 @@
 // @flow
 import React, { Component } from 'react';
-import RaspiStatus from '../containers/raspiStatus';
+import PinStatus from '../containers/PinStatus';
 
 export default class HomePage extends Component {
   render() {
     return (
-      <RaspiStatus />
+      <PinStatus />
     );
   }
 }

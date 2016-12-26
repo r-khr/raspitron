@@ -52,16 +52,16 @@ export default validate(merge(baseConfig, {
         ]
       },
       {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file?name=[name].[ext]'
+      },
+      {
         test: /\.scss$/,
         loaders: [
           'style-loader',
           'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
           'sass-loader'
         ]
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2)$/,
-        loader: 'file?name=/material-design-icons/iconfont/[name].[ext]'
       }
     ]
   },

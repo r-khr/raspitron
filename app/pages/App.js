@@ -21,6 +21,7 @@ class App extends Component {
     return (
       <Layout className={styles.layout}>
         <NavDrawer
+          className={styles.navDrawer}
           active={this.state.drawerActive}
           permanentAt='xxxl'
           onOverlayClick={this.toggleDrawerActive}
