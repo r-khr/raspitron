@@ -6,9 +6,11 @@ import createLogger from 'redux-logger';
 import rootReducer from '../reducers';
 
 import * as statusActions from '../actions/status';
+import * as hardwareActions from '../actions/hardware';
 
 const actionCreators = {
   ...statusActions,
+  ...hardwareActions,
   push
 };
 

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Layout, NavDrawer, Panel, AppBar } from 'react-toolbox';
+import { Layout, Drawer, Panel, AppBar } from 'react-toolbox';
 import Navigation from '../components/navigation';
 import Clock from '../components/clock';
 
@@ -20,14 +20,15 @@ class App extends Component {
   render() {
     return (
       <Layout className={styles.layout}>
-        <NavDrawer
+        <Drawer
           className={styles.navDrawer}
           active={this.state.drawerActive}
-          permanentAt='xxxl'
           onOverlayClick={this.toggleDrawerActive}
         >
-          <Navigation />
-        </NavDrawer>
+          <Navigation
+            goto={this.toggleDrawerActive.bind(this)}
+          />
+        </Drawer>
         <Panel className={styles.panel}>
           <AppBar className={styles.bar} leftIcon='menu' onLeftIconClick={this.toggleDrawerActive}>
             <Clock />

@@ -38,14 +38,14 @@ class PinStatus extends Component {
       }
       );
       return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapperHorizontal}>
           { pins }
         </div>
       );
     }
     // If loading
     return (
-      <div className={styles.wrapper}>
+      <div className={styles.wrapperHorizontal}>
         <p>Loading Raspberry Pi GPIO Pin Status</p>
       </div>
     );
