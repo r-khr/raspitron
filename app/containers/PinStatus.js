@@ -17,11 +17,10 @@ class PinStatus extends Component {
     if (Array.isArray(this.props.pins) && !this.props.isLoading) {
       const pins = this.props.pins.map((pin) => {
         const index = this.props.pins.indexOf(pin);
-        const isOn = pin.state === 0;
         const subtitle = 'Pin #' + pin.number;
 
-        function updatePin(number, _isOn) {
-          const action = _isOn ? 'on' : 'off';
+        function updatePin(number, pinState) {
+          const action = pinState === 0 ? 'on' : 'off';
           this.props.setPin(number, action);
         }
 
@@ -31,8 +30,8 @@ class PinStatus extends Component {
             key={index}
             title={pin.name}
             subtitle={subtitle}
-            isOn={isOn}
-            togglePin={updatePin.bind(this, pin.number, isOn)}
+            isOn={pin.state}
+            togglePin={updatePin.bind(this, pin.number, pin.state)}
           />
         );
       }
