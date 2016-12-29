@@ -33,7 +33,9 @@ class App extends Component {
           <AppBar className={styles.bar} leftIcon='menu' onLeftIconClick={this.toggleDrawerActive}>
             <Clock />
           </AppBar>
-          { this.props.children }
+          <div className={'container'}>
+            { this.props.children }
+          </div>
         </Panel>
       </Layout>
     );
