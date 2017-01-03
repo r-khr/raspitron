@@ -4,7 +4,9 @@ import Devices from '../constants/devices';
 import {
   ADD_HARDWARE,
   REMOVE_HARDWARE,
-  SET_HARDWARE
+  TEST_HARDWARE,
+  SCAN_HARDWARE_SUCCESS,
+  SCAN_HARDWARE_ERROR
 } from '../actions/hardware';
 
 const INITIAL_STATE = {
@@ -15,15 +17,23 @@ export default function status(state = INITIAL_STATE, action) {
   switch (action.type) {
     case ADD_HARDWARE:
       return Object.assign({}, state, {
-        isLoading: true
+        devices: state.devices.push(action.device)
       });
     case REMOVE_HARDWARE:
       return Object.assign({}, state, {
-        isLoading: true
+        devices: state.devices.splice(state.devices.indexOf(action.device), 1)
       });
-    case SET_HARDWARE:
+    case TEST_HARDWARE:
       return Object.assign({}, state, {
-        hardware: action.pins
+        devices: action.devices
+      });
+    case SCAN_HARDWARE_SUCCESS:
+      return Object.assign({}, state, {
+        devices: action.devices
+      });
+    case SCAN_HARDWARE_ERROR:
+      return Object.assign({}, state, {
+        devices: action.devices
       });
     default:
       return state;

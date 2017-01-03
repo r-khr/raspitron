@@ -20,7 +20,7 @@ class Navigation extends Component {
       },
       {
         icon: 'settings',
-        caption: 'Settings',
+        caption: 'Device Settings',
         route: '/settings'
       }
     ];

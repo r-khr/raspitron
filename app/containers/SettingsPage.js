@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'react-toolbox/lib/button';
 import * as hardwareActions from '../actions/hardware';
-import Device from '../components/device';
+import DeviceList from '../components/deviceList';
 
 // ------------------------------------------------------
 // Settings Page
@@ -15,28 +15,34 @@ import Device from '../components/device';
 
 class SettingsPage extends Component {
   componentWillMount() {
-    // this.props.fetchStatus();
+    this.props.scanAllDevices(this.props.devices);
   }
   render() {
+    const { devices } = this.props;
+
     return (
       <div>
         <div className={'page-header'}>
-          <h2>
-            List of Devices
-            <Button className={'pull-right'} icon='add' label='Add Device' raised primary />
-          </h2>
+          <h3>
+            Devices Settings
+            <Button className={'pull-right'} icon='add' floating mini accent />
+          </h3>
         </div>
-        <div className={'row'}>
-          <Device />
-        </div>
+        <DeviceList devices={devices} />
       </div>
     );
   }
 }
 
 SettingsPage.propTypes = {
-  fetchStatus: PropTypes.func.isRequired,
-  setPin: PropTypes.func.isRequired
+  scanAllDevices: PropTypes.func.isRequired,
+  // setPin: PropTypes.func.isRequired,
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      ip: PropTypes.string
+    })
+  ).isRequired
 };
 
 

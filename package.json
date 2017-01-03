@@ -84,6 +84,7 @@
     "webpack-validator": "^2.2.9"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "css-loader": "^0.25.0",
     "css-modules-require-hook": "^4.0.5",
     "electron-debug": "^1.0.1",

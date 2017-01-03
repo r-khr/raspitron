@@ -1,9 +1,9 @@
 // @flow
-import { get, post } from '../rest';
+import { getDevice, post } from '../rest';
 
 
-export function getInfo() {
-  return get('info');
+export function getInfo(endpoint) {
+  return getDevice(endpoint + 'info');
 }
 
 export function postInfo(json) {

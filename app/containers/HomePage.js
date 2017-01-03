@@ -29,7 +29,7 @@ class HomePage extends Component {
         }
 
         return (
-          <div key={index} className={'col-sm-4'}>
+          <div key={index} className={'col col-sm-4'}>
             <PinSwitch
               header={header}
               name={pin.name}
@@ -43,9 +43,9 @@ class HomePage extends Component {
       return (
         <div>
           <div className={'page-header'}>
-            <h2>
+            <h3>
               List of Pins
-            </h2>
+            </h3>
           </div>
           <div className={'row'}>
             { pins }

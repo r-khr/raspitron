@@ -29,7 +29,7 @@ class App extends Component {
             goto={this.toggleDrawerActive.bind(this)}
           />
         </Drawer>
-        <Panel className={styles.panel}>
+        <Panel>
           <AppBar className={styles.bar} leftIcon='menu' onLeftIconClick={this.toggleDrawerActive}>
             <Clock />
           </AppBar>

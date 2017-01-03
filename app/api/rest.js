@@ -11,6 +11,14 @@ headers.append('Accept', 'application/json');
 // --------------------------------------------------
 // Default Rest Requests
 // --------------------------------------------------
+export function getDevice(endpoint) {
+  return fetch(endpoint, {
+    method: 'GET',
+    headers
+  })
+    .then(response => response.json());
+}
+
 
 export function get(endpoint) {
   return fetch(getEndpoint(endpoint), {
