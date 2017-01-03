@@ -1,6 +1,7 @@
 // @flow
-import { getStatus, setPinStatus, postStatus } from '../api/endpoints/status';
+import { getStatus } from '../api/endpoints/hardware';
 
+export const SCAN_HARDWARE = 'SCAN_HARDWARE';
 export const ADD_HARDWARE = 'ADD_HARDWARE';
 export const SET_HARDWARE = 'SET_HARDWARE';
 
@@ -10,10 +11,9 @@ function requestStatus() {
   };
 }
 
-function recieveStatus(json) {
+function recieveStatus() {
   return {
-    type: SET_HARDWARE,
-    pins: json.pins
+    type: SET_HARDWARE
   };
 }
 
@@ -21,22 +21,6 @@ export function fetchStatus() {
   return (dispatch) => {
     dispatch(requestStatus());
     return getStatus()
-      .then(json => dispatch(recieveStatus(json)));
-  };
-}
-
-export function setPin(number, action) {
-  return (dispatch) => {
-    dispatch(requestStatus());
-    return setPinStatus(number, action)
-      .then(json => dispatch(recieveStatus(json)));
-  };
-}
-
-export function setStatus(data) {
-  return (dispatch) => {
-    dispatch(requestStatus());
-    return postStatus(data)
       .then(json => dispatch(recieveStatus(json)));
   };
 }

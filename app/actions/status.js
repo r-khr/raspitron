@@ -1,5 +1,5 @@
 // @flow
-import { getStatus, setPinStatus, postStatus } from '../api/endpoints/status';
+import { getPins, postPin } from '../api/endpoints/pins';
 
 export const SENT_PI_REQUEST = 'SENT_PI_REQUEST';
 export const RECEIVED_PI_REQUEST = 'RECEIVED_PI_REQUEST';
@@ -17,10 +17,10 @@ function recieveStatus(json) {
   };
 }
 
-export function fetchStatus() {
+export function fetchPins() {
   return (dispatch) => {
     dispatch(requestStatus());
-    return getStatus()
+    return getPins()
       .then(json => dispatch(recieveStatus(json)));
   };
 }
@@ -28,15 +28,8 @@ export function fetchStatus() {
 export function setPin(number, action) {
   return (dispatch) => {
     dispatch(requestStatus());
-    return setPinStatus(number, action)
+    return postPin(number, action)
       .then(json => dispatch(recieveStatus(json)));
   };
 }
 
-export function setStatus(data) {
-  return (dispatch) => {
-    dispatch(requestStatus());
-    return postStatus(data)
-      .then(json => dispatch(recieveStatus(json)));
-  };
-}

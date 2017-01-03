@@ -1,5 +1,5 @@
-// Hardware list
-const hardware = [
+// Device list
+const Devices = [
   {
     name: 'raspberry pi',
     ip: 'http://192.168.2.157/'
@@ -15,4 +15,4 @@ const hardware = [
 ];
 
 
-export default hardware;
+export default Devices;

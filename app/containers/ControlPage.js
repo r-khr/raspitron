@@ -1,58 +1,51 @@
 // @flow
-
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import PinSwitch from '../components/pinSwitch';
-import styles from './_container.css';
 import * as statusActions from '../actions/status';
+import PinControl from '../components/pinControl';
 
-
-class PinStatus extends Component {
+// ---------------------------------------------------------
+// Control Page
+// ---------------------------------------------------------
+// This page provides programmatic control with device pins.
+//
+// ---------------------------------------------------------
+class ControlPage extends Component {
   componentWillMount() {
-    this.props.fetchStatus();
+    this.props.fetchPins();
   }
-
   render() {
     if (Array.isArray(this.props.pins) && !this.props.isLoading) {
       const pins = this.props.pins.map((pin) => {
         const index = this.props.pins.indexOf(pin);
-        const subtitle = 'Pin #' + pin.number;
-
-        function updatePin(number, pinState) {
-          const action = pinState === 0 ? 'on' : 'off';
-          this.props.setPin(number, action);
-        }
 
         return (
-          <PinSwitch
-            className={styles.element}
+          <PinControl
             key={index}
             title={pin.name}
-            subtitle={subtitle}
-            isOn={pin.state}
-            togglePin={updatePin.bind(this, pin.number, pin.state)}
+            isOn={pin.state === 1}
           />
         );
       }
       );
       return (
-        <div className={styles.wrapperHorizontal}>
+        <div>
           { pins }
         </div>
       );
     }
     // If loading
     return (
-      <div className={styles.wrapperHorizontal}>
+      <div>
         <p>Loading Raspberry Pi GPIO Pin Status</p>
       </div>
     );
   }
 }
 
-PinStatus.propTypes = {
-  fetchStatus: PropTypes.func.isRequired,
+ControlPage.propTypes = {
+  fetchPins: PropTypes.func.isRequired,
   setPin: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   pins: PropTypes.arrayOf(
@@ -76,4 +69,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(statusActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PinStatus);
+export default connect(mapStateToProps, mapDispatchToProps)(ControlPage);

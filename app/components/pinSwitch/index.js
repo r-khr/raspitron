@@ -2,27 +2,30 @@
 
 import React, { Component, PropTypes } from 'react';
 import Switch from 'react-toolbox/lib/switch';
-import styles from './styles.css';
 
 class PinSwitch extends Component {
   render() {
-    const { title, isOn, togglePin } = this.props;
-
+    const { header, name, isOn, togglePin } = this.props;
     return (
-      <div className={styles.wrapper}>
-        <Switch
-          checked={isOn}
-          onChange={togglePin}
-          label={title}
-        />
+      <div className={'panel panel-default'}>
+        <div className={'panel-heading'}>
+          { header }
+        </div>
+        <div className={'panel-body'}>
+          <Switch
+            checked={isOn}
+            onChange={togglePin}
+            label={name}
+          />
+        </div>
       </div>
     );
   }
 }
 
 PinSwitch.propTypes = {
-  title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string.isRequired,
+  header: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   isOn: PropTypes.bool.isRequired,
   togglePin: PropTypes.func.isRequired
 };

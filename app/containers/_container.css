@@ -1,6 +1,11 @@
-.element{
-  height: 100px;
-  width: 100px;
-  padding: 20px;
-  background: red;
+.layout .panel{
+    justify-content:  flex-start; 
+}
+
+.navDrawer{
+    width: 300px;
+}
+
+.bar{
+    justify-content:  space-between;
 }

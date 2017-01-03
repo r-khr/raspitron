@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import App from './pages/App';
-import HomePage from './pages/HomePage';
-import SettingsPage from './pages/SettingsPage';
-import ControlPage from './pages/ControlPage';
+import App from './containers/App';
+import HomePage from './containers/HomePage';
+import SettingsPage from './containers/SettingsPage';
+import ControlPage from './containers/ControlPage';
 
 export default (
   <Route path="/" component={App}>

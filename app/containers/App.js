@@ -3,7 +3,7 @@ import { Layout, Drawer, Panel, AppBar } from 'react-toolbox';
 import Navigation from '../components/navigation';
 import Clock from '../components/clock';
 
-import styles from './_pages.css';
+import styles from './_container.css';
 
 class App extends Component {
   constructor(props) {

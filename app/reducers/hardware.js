@@ -1,4 +1,6 @@
 // @flow
+import Devices from '../constants/devices';
+
 import {
   ADD_HARDWARE,
   REMOVE_HARDWARE,
@@ -6,9 +8,7 @@ import {
 } from '../actions/hardware';
 
 const INITIAL_STATE = {
-  devices: [
-      {}
-  ]
+  devices: Devices
 };
 
 export default function status(state = INITIAL_STATE, action) {
