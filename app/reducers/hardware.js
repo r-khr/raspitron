@@ -17,7 +17,10 @@ export default function status(state = INITIAL_STATE, action) {
   switch (action.type) {
     case ADD_HARDWARE:
       return Object.assign({}, state, {
-        devices: state.devices.push(action.device)
+        devices: [
+          ...state.devices,
+          action.device
+        ]
       });
     case REMOVE_HARDWARE:
       return Object.assign({}, state, {
@@ -25,15 +28,38 @@ export default function status(state = INITIAL_STATE, action) {
       });
     case TEST_HARDWARE:
       return Object.assign({}, state, {
-        devices: action.devices
+        devices: state.devices.map(device => {
+          if (device.id === action.device.id) {
+            return Object.assign({}, device, {
+              isLoading: true
+            });
+          }
+          return device;
+        })
       });
     case SCAN_HARDWARE_SUCCESS:
       return Object.assign({}, state, {
-        devices: action.devices
+        devices: state.devices.map(device => {
+          if (device.id === action.device.id) {
+            return Object.assign({}, device, {
+              isLoading: false,
+              available: true
+            });
+          }
+          return device;
+        })
       });
     case SCAN_HARDWARE_ERROR:
       return Object.assign({}, state, {
-        devices: action.devices
+        devices: state.devices.map(device => {
+          if (device.id === action.device.id) {
+            return Object.assign({}, device, {
+              isLoading: false,
+              available: false
+            });
+          }
+          return device;
+        })
       });
     default:
       return state;

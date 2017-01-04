@@ -25,6 +25,16 @@ PINS = [
         'number': 4,
         'name': 'GPIO 04',
         'state': 0
+    },
+    {
+        'number': 5,
+        'name': 'GPIO 05',
+        'state': 0
+    },
+    {
+        'number': 6,
+        'name': 'GPIO 06',
+        'state': 0
     }
 ]
 

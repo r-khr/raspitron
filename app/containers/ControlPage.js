@@ -16,29 +16,28 @@ class ControlPage extends Component {
     this.props.fetchPins();
   }
   render() {
-    if (Array.isArray(this.props.pins) && !this.props.isLoading) {
-      const pins = this.props.pins.map((pin) => {
-        const index = this.props.pins.indexOf(pin);
-
-        return (
-          <PinControl
-            key={index}
-            title={pin.name}
-            isOn={pin.state === 1}
-          />
-        );
-      }
-      );
-      return (
-        <div>
-          { pins }
+    const { pins } = this.props;
+    const pinList = Array.isArray(pins) && pins.length > 0 ?
+      this.props.pins.map((pin, index) => (
+        <PinControl
+          key={index}
+          title={pin.name}
+          isOn={pin.state === 1}
+        />
+      )) : (
+        <div className={'row'}>
+          <p className={'col col-sm-12'}>Pins have not loaded.</p>
         </div>
       );
-    }
-    // If loading
+
     return (
       <div>
-        <p>Loading Raspberry Pi GPIO Pin Status</p>
+        <div className={'page-header'}>
+          <h3>
+            Programmatic Pin Control
+          </h3>
+        </div>
+        { pinList }
       </div>
     );
   }

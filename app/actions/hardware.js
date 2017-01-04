@@ -12,7 +12,7 @@ export function scanAllDevices(devices) {
     devices.forEach(device => {
       dispatch(testDevice(device));
       getInfo(device.address)
-        .then(dispatch(hardwareSuccess(device)))
+        .then(json => dispatch(hardwareSuccess(device, json)))
         .catch(dispatch(hardwareError(device)));
     });
   };

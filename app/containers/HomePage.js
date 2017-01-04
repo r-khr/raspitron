@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import PinSwitch from '../components/pinSwitch';
+import PinList from '../components/pinList';
 import * as statusActions from '../actions/status';
 
 // ------------------------------------------------------
@@ -18,45 +18,27 @@ class HomePage extends Component {
   }
 
   render() {
-    if (Array.isArray(this.props.pins) && !this.props.isLoading) {
-      const pins = this.props.pins.map((pin) => {
-        const index = this.props.pins.indexOf(pin);
-        const header = 'Pin #' + pin.number;
-
-        function updatePin(number, pinState) {
-          const action = pinState === 0 ? 'on' : 'off';
-          this.props.setPin(number, action);
-        }
-
-        return (
-          <div key={index} className={'col col-sm-4'}>
-            <PinSwitch
-              header={header}
-              name={pin.name}
-              isOn={pin.state === 1}
-              togglePin={updatePin.bind(this, pin.number, pin.state)}
-            />
-          </div>
-        );
-      }
-      );
-      return (
-        <div>
-          <div className={'page-header'}>
-            <h3>
-              List of Pins
-            </h3>
-          </div>
-          <div className={'row'}>
-            { pins }
-          </div>
-        </div>
-      );
-    }
-    // If loading
-    return (
+    const { pins, isLoading, setPin } = this.props;
+    const pinList = Array.isArray(pins) && pins.length > 0 ? (
+      <PinList
+        pins={pins}
+        isLoading={isLoading}
+        setPin={setPin}
+      />
+    ) : (
       <div className={'row'}>
-        <p>Loading Raspberry Pi GPIO Pin Status</p>
+        <p className={'col col-sm-12'}>Pins have not loaded.</p>
+      </div>
+    );
+
+    return (
+      <div>
+        <div className={'page-header'}>
+          <h3>
+            List of Pins
+          </h3>
+        </div>
+        { pinList }
       </div>
     );
   }

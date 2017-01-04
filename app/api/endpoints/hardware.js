@@ -1,11 +1,12 @@
 // @flow
-import { getDevice, post } from '../rest';
+import { get, post } from '../rest';
+import { buildEndpoint } from '../../utils/api';
 
 
-export function getInfo(endpoint) {
-  return getDevice(endpoint + 'info');
+export function getInfo(address) {
+  return get(buildEndpoint(address, 'status'));
 }
 
-export function postInfo(json) {
-  return post('info', json);
+export function postInfo(address, json) {
+  return post(buildEndpoint(address, 'info'), json);
 }

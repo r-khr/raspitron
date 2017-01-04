@@ -5,7 +5,7 @@ import Switch from 'react-toolbox/lib/switch';
 
 class PinSwitch extends Component {
   render() {
-    const { header, name, isOn, togglePin } = this.props;
+    const { header, name, isOn, isLoading, togglePin } = this.props;
     return (
       <div className={'panel panel-default'}>
         <div className={'panel-heading'}>
@@ -16,6 +16,7 @@ class PinSwitch extends Component {
             checked={isOn}
             onChange={togglePin}
             label={name}
+            disabled={isLoading}
           />
         </div>
       </div>
@@ -27,6 +28,7 @@ PinSwitch.propTypes = {
   header: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   isOn: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   togglePin: PropTypes.func.isRequired
 };
 
