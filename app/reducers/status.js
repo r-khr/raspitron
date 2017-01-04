@@ -1,21 +1,21 @@
 // @flow
 import {
-  SET_ADDRESS,
+  LINK_DEVICE,
   SENT_PI_REQUEST,
   RECEIVED_PI_REQUEST
 } from '../actions/status';
 
 const INITIAL_STATE = {
-  address: '',
+  deviceId: '',
   pins: [],
   isLoading: true
 };
 
 export default function status(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case SET_ADDRESS:
+    case LINK_DEVICE:
       return Object.assign({}, state, {
-        address: action.address
+        deviceId: action.deviceId
       });
     case SENT_PI_REQUEST:
       return Object.assign({}, state, {

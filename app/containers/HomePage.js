@@ -18,7 +18,8 @@ class HomePage extends Component {
   }
 
   render() {
-    const { pins, isLoading, setPin } = this.props;
+    const { pins, isLoading, setPin, devices, deviceId } = this.props;
+    const device = devices.find(d => d.id === deviceId) || { address: '' };
     const pinList = Array.isArray(pins) && pins.length > 0 ? (
       <PinList
         pins={pins}
@@ -35,7 +36,7 @@ class HomePage extends Component {
       <div>
         <div className={'page-header'}>
           <h3>
-            List of Pins
+            List of Pins {device.address}
           </h3>
         </div>
         { pinList }
@@ -48,6 +49,13 @@ HomePage.propTypes = {
   fetchPins: PropTypes.func.isRequired,
   setPin: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  devices: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      ip: PropTypes.string
+    })
+  ),
+  deviceId: PropTypes.string.isRequired,
   pins: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
@@ -62,6 +70,8 @@ function mapStateToProps(state) {
   return {
     pins: state.status.pins,
     isLoading: state.status.isLoading,
+    deviceId: state.status.deviceId,
+    devices: state.hardware.devices,
   };
 }
 
