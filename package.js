@@ -105,8 +105,8 @@ async function startPack() {
     // Start the packing process
     if (shouldBuildAll) {
       // build for all platforms
-      const archs = ['ia32', 'x64'];
-      const platforms = ['linux', 'win32', 'darwin'];
+      const archs = ['ia32', 'x64', 'armv7l'];
+      const platforms = ['linux', 'darwin', 'win32'];
 
       platforms.forEach(plat => {
         archs.forEach(arch => {
