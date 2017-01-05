@@ -1,13 +1,13 @@
 // @flow
 import { get, post } from '../rest';
-import { getEndpoint } from '../../utils/api';
+import { buildEndpoint } from '../../utils/api';
 
 
-export function getPins() {
-  return get(getEndpoint('status'));
+export function getPins(address) {
+  return get(buildEndpoint(address, 'status'));
 }
 
-export function postPin(pinNumber, pinAction) {
-  return post(getEndpoint(['status', pinNumber, pinAction]), {});
+export function postPin(address, pinNumber, pinAction) {
+  return post(buildEndpoint(address, ['status', pinNumber, pinAction]), {});
 }
 

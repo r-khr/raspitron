@@ -26,18 +26,18 @@ export function linkDevice(device) {
   };
 }
 
-export function fetchPins() {
+export function fetchPins(address) {
   return (dispatch) => {
     dispatch(requestStatus());
-    return getPins()
+    return getPins(address)
       .then(json => dispatch(recieveStatus(json)));
   };
 }
 
-export function setPin(number, action) {
+export function setPin(address, number, action) {
   return (dispatch) => {
     dispatch(requestStatus());
-    return postPin(number, action)
+    return postPin(address, number, action)
       .then(json => dispatch(recieveStatus(json)));
   };
 }

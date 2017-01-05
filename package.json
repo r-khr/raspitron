@@ -1,7 +1,7 @@
 {
   "name": "raspitron",
   "productName": "Raspitron",
-  "version": "0.10.1",
+  "version": "1.0.2",
   "description": "Raspitron",
   "main": "main.js",
   "scripts": {

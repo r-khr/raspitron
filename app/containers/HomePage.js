@@ -14,16 +14,20 @@ import * as statusActions from '../actions/status';
 
 class HomePage extends Component {
   componentWillMount() {
-    this.props.fetchPins();
+    const device = this.props.devices.find(d => d.id === this.props.deviceId);
+    if (device) {
+      this.props.fetchPins(device.address);
+    }
   }
 
   render() {
     const { pins, isLoading, setPin, devices, deviceId } = this.props;
-    const device = devices.find(d => d.id === deviceId) || { address: '' };
+    const device = devices.find(d => d.id === deviceId);
     const pinList = Array.isArray(pins) && pins.length > 0 ? (
       <PinList
         pins={pins}
         isLoading={isLoading}
+        address={device.address}
         setPin={setPin}
       />
     ) : (
@@ -36,7 +40,7 @@ class HomePage extends Component {
       <div>
         <div className={'page-header'}>
           <h3>
-            List of Pins {device.address}
+            List of Pins {device ? device.address : ''}
           </h3>
         </div>
         { pinList }

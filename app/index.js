@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import 'react-toolbox/lib/commons.scss';
-import 'basscss/css/basscss.min.css';
+// import 'basscss/css/basscss.min.css';
 import routes from './routes';
 import configureStore from './store/configureStore';
 import './app.global.css';
