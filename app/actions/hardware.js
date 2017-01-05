@@ -46,7 +46,7 @@ export function addDevice(device) {
   };
 }
 
-export function removeDevice(device) {
+export function deleteDevice(device) {
   return {
     type: REMOVE_HARDWARE,
     device

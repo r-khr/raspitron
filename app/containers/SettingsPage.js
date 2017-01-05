@@ -19,9 +19,14 @@ class SettingsPage extends Component {
     this.props.scanAllDevices(this.props.devices);
   }
   render() {
-    const { devices, deviceId, linkDevice } = this.props;
+    const { devices, deviceId, linkDevice, deleteDevice } = this.props;
     const deviceList = Array.isArray(devices) && devices.length > 0 ? (
-      <DeviceList devices={devices} deviceId={deviceId} linkDevice={linkDevice} />
+      <DeviceList
+        devices={devices}
+        deviceId={deviceId}
+        linkDevice={linkDevice}
+        deleteDevice={deleteDevice}
+      />
     ) : (
       <p>No devices</p>
     );
@@ -47,12 +52,16 @@ class SettingsPage extends Component {
 SettingsPage.propTypes = {
   scanAllDevices: PropTypes.func.isRequired,
   linkDevice: PropTypes.func.isRequired,
+  deleteDevice: PropTypes.func.isRequired,
   // setPin: PropTypes.func.isRequired,
   deviceId: PropTypes.string.isRequired,
   devices: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string,
       name: PropTypes.string,
-      ip: PropTypes.string
+      address: PropTypes.string,
+      isLoading: PropTypes.bool,
+      isAvailable: PropTypes.bool
     })
   )
 };

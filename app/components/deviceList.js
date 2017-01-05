@@ -6,14 +6,24 @@ import { IconButton } from 'react-toolbox/lib/button';
 
 class DeviceList extends Component {
   render() {
-    const { devices, deviceId, linkDevice } = this.props;
+    const { devices, deviceId, linkDevice, deleteDevice } = this.props;
     const deviceList = devices.map((device, index) => {
-      const icon = device.available ? 'network_wifi' : 'signal_wifi_off';
-      const rightActions = [
-        <IconButton key={0} icon='link' accent={device.id === deviceId} onClick={linkDevice.bind(this, device)} />,
-        // <IconButton key={1} icon='edit' />,
-        // <IconButton key={2} icon='delete' />
-      ];
+      let icon;
+      const rightActions = [];
+
+      // Loading and unavailable
+      if (device.isLoading && !device.isAvailable) {
+        icon = (<i key={0} className={'fa fa-cog fa-spin fa-fw'} />);
+      } else if (!device.isLoading && device.isAvailable) {
+        icon = 'network_wifi';
+        rightActions.push((<IconButton key={0} icon='link' accent={device.id === deviceId} onClick={linkDevice.bind(this, device)} />));
+        // rightActions.push((<IconButton key={1} icon='edit' />));
+        rightActions.push((<IconButton key={2} icon='delete' onClick={deleteDevice.bind(this, device)} />));
+      } else {
+        icon = 'signal_wifi_off';
+        rightActions.push((<IconButton key={2} icon='delete' onClick={deleteDevice.bind(this, device)} />));
+      }
+
       return (
         <ListItem
           key={index}
@@ -22,7 +32,6 @@ class DeviceList extends Component {
           rightActions={rightActions}
           caption={device.name}
           legend={device.address}
-          disabled={!device.available}
         />
       );
     });
@@ -37,11 +46,14 @@ class DeviceList extends Component {
 
 DeviceList.propTypes = {
   linkDevice: PropTypes.func.isRequired,
+  deleteDevice: PropTypes.func.isRequired,
   deviceId: PropTypes.string,
   devices: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
-      address: PropTypes.string
+      address: PropTypes.string,
+      isLoading: PropTypes.bool,
+      isAvailable: PropTypes.bool
     })
   ).isRequired
 };

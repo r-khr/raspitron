@@ -24,14 +24,15 @@ export default function status(state = INITIAL_STATE, action) {
       });
     case REMOVE_HARDWARE:
       return Object.assign({}, state, {
-        devices: state.devices.splice(state.devices.indexOf(action.device), 1)
+        devices: state.devices.filter(device => device !== action.device)
       });
     case TEST_HARDWARE:
       return Object.assign({}, state, {
         devices: state.devices.map(device => {
           if (device.id === action.device.id) {
             return Object.assign({}, device, {
-              isLoading: true
+              isLoading: true,
+              isAvailable: false
             });
           }
           return device;
@@ -43,7 +44,7 @@ export default function status(state = INITIAL_STATE, action) {
           if (device.id === action.device.id) {
             return Object.assign({}, device, {
               isLoading: false,
-              available: true
+              isAvailable: true
             });
           }
           return device;
@@ -55,7 +56,7 @@ export default function status(state = INITIAL_STATE, action) {
           if (device.id === action.device.id) {
             return Object.assign({}, device, {
               isLoading: false,
-              available: false
+              isAvailable: false
             });
           }
           return device;
