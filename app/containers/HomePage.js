@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Button } from 'react-toolbox/lib/button';
 import PinList from '../components/pinList';
 import * as statusActions from '../actions/status';
 
@@ -23,27 +24,43 @@ class HomePage extends Component {
   render() {
     const { pins, isLoading, setPin, devices, deviceId } = this.props;
     const device = devices.find(d => d.id === deviceId);
-    const pinList = Array.isArray(pins) && pins.length > 0 ? (
-      <PinList
-        pins={pins}
-        isLoading={isLoading}
-        address={device.address}
-        setPin={setPin}
-      />
-    ) : (
-      <div className={'row'}>
-        <p className={'col col-sm-12'}>Pins have not loaded.</p>
-      </div>
-    );
+    let headerText = 'List of Pins';
+    let htmlBody;
+
+    if (device && Array.isArray(pins) && pins.length > 0) {
+      headerText += ' - ' + device.address;
+      htmlBody = (
+        <PinList
+          pins={pins}
+          isLoading={isLoading}
+          address={device.address}
+          setPin={setPin}
+        />
+      );
+    } else {
+      htmlBody = (
+        <div className={'row'}>
+          <p className={'col col-sm-12'}>No device currently linked with Raspitron. Please go to &#39;Device Settings&#39; to manage devices.</p>
+          <div className={'col col-sm-12'}>
+            <Button
+              icon='link'
+              label='Link Device'
+              href='#/settings'
+              raised primary
+            />
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div>
         <div className={'page-header'}>
           <h3>
-            List of Pins {device ? device.address : ''}
+            {headerText}
           </h3>
         </div>
-        { pinList }
+        {htmlBody}
       </div>
     );
   }
