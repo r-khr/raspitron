@@ -41,14 +41,17 @@ export default validate(merge(baseConfig, {
         loaders: [
           'style-loader',
           'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-        ]
+        ],
+        exclude: /(node_modules)/
       },
 
       {
-        test: /\.scss$/,
+        test: /(\.scss|\.css)$/,
+        include: /(node_modules)/,
         loaders: [
           'style-loader',
-          'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader'
+          'css-loader?',
+          'sass-loader'
         ]
       },
 
