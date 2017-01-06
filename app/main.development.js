@@ -39,12 +39,20 @@ const installExtensions = async () => {
 app.on('ready', async () => {
   await installExtensions();
 
-  mainWindow = new BrowserWindow({
-    show: false,
-    width: 800,
-    height: 540,
-    //fullscreen: true
-  });
+  if (process.env.NODE_ENV === 'production') {
+    mainWindow = new BrowserWindow({
+      show: false,
+      width: 800,
+      height: 540,
+      fullscreen: true
+    });
+  } else if (process.env.NODE_ENV === 'development') {
+    mainWindow = new BrowserWindow({
+      show: false,
+      width: 800,
+      height: 540,
+    });
+  }
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
