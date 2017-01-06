@@ -1,0 +1,11 @@
+
+{
+  "name": "raspitron",
+  "productName": "raspitron",
+  "version": "1.2.0",
+  "description": "Raspberry PI Electron Application",
+  "main": "./main.js",
+  "license": "MIT",
+  "dependencies": {
+  }
+}

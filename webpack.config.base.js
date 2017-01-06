@@ -3,8 +3,10 @@
  */
 
 import path from 'path';
-import webpack from 'webpack';
 import validate from 'webpack-validator';
+import {
+  dependencies as externals
+} from './app/package.json';
 
 export default validate({
   module: {
@@ -19,7 +21,7 @@ export default validate({
   },
 
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'app'),
     filename: 'bundle.js',
 
     // https://github.com/webpack/webpack/issues/1114
@@ -34,8 +36,5 @@ export default validate({
 
   plugins: [],
 
-  externals: [
-    // put your node 3rd party libraries which can't be built with webpack here
-    // (mysql, mongodb, and so on..)
-  ]
+  externals: Object.keys(externals || {})
 });
