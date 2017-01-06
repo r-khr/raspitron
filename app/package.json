@@ -6,6 +6,9 @@
   "description": "Raspberry PI Electron Application",
   "main": "./main.js",
   "license": "MIT",
+  "author": {
+    "name": "Roman Khrystynych"
+  },
   "dependencies": {
   }
 }

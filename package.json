@@ -1,5 +1,5 @@
 {
-  "name": "raspitron",
+  "name": "Raspitron",
   "productName": "Raspitron",
   "version": "1.2.0",
   "description": "Raspitron",
@@ -25,8 +25,8 @@
     "package-all": "npm run build && build -mwl"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "Raspitron",
+    "appId": "org.Raspitron",
     "category": "public.app-category.tools",
     "dmg": {
       "contents": [

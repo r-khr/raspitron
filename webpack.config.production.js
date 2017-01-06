@@ -11,7 +11,8 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import BabiliPlugin from 'babili-webpack-plugin';
 import baseConfig from './webpack.config.base';
 
-const config = validate(merge(baseConfig, {
+// multiple extract instances
+export default validate(merge(baseConfig, {
   devtool: 'cheap-module-source-map',
 
   entry: [
@@ -41,10 +42,11 @@ const config = validate(merge(baseConfig, {
         loader: ExtractTextPlugin.extract(
           'style-loader',
           'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-        )
+        ),
+        exclude: /(node_modules)/
       },
       {
-        test: /\.scss$/,
+        test: /(\.scss)$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
           'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader'
@@ -52,11 +54,31 @@ const config = validate(merge(baseConfig, {
       },
 
       // Fonts
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
+      {
+        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/font-woff'
+      },
+      {
+        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/font-woff'
+      },
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/octet-stream'
+      },
+      {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file'
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=image/svg+xml'
+      },
+
+      // {
+      //   test: /\.(eot|svg|ttf|woff|woff2)$/,
+      //   loader: 'file?name=[name].[ext]'
+      // },
 
       // Images
       {
@@ -78,15 +100,6 @@ const config = validate(merge(baseConfig, {
 
     new BabiliPlugin(),
 
-    // Minify without warning messages and IE8 support
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        screw_ie8: true,
-        warnings: false
-      }
-    }),
-
-    // Set the ExtractTextPlugin output filename
     new ExtractTextPlugin('style.css', { allChunks: true }),
 
     new HtmlWebpackPlugin({
@@ -99,5 +112,3 @@ const config = validate(merge(baseConfig, {
   // https://github.com/chentsulin/webpack-target-electron-renderer#how-this-module-works
   target: 'electron-renderer'
 }));
-
-export default config;

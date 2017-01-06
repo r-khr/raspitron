@@ -47,13 +47,6 @@ export default validate(merge(baseConfig, {
    */
   node: {
     __dirname: false,
-    __filename: false,
-  },
-
-  externals: [
-    'font-awesome',
-    'moment',
-    'react-toolbox',
-    'source-map-support'
-  ]
+    __filename: false
+  }
 }));
