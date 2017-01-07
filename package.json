@@ -19,9 +19,10 @@
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./app/main.development",
     "postinstall": "concurrently \"install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
     "dev": "npm run hot-server -- --start-hot",
+    "packagejs": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill package.js",
     "package": "npm run build && build --publish never",
     "package-win": "npm run build && build --win --x64",
-    "package-linux": "npm run build && build --linux",
+    "package-linux": "npm run build && build --linux --armv7l",
     "package-all": "npm run build && build -mwl"
   },
   "build": {
@@ -92,7 +93,7 @@
     "css-loader": "^0.26.1",
     "devtron": "^1.4.0",
     "electron": "^1.4.13",
-    "electron-builder": "^10.15.1",
+    "electron-builder": "^10.17.3",
     "electron-devtools-installer": "^2.0.1",
     "enzyme": "^2.7.0",
     "eslint": "^3.12.2",

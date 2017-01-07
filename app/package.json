@@ -7,7 +7,8 @@
   "main": "./main.js",
   "license": "MIT",
   "author": {
-    "name": "Roman Khrystynych"
+    "name": "Roman Khrystynych",
+    "email": "roman@tonics.io"
   },
   "dependencies": {
   }
