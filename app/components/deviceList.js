@@ -6,7 +6,7 @@ import { IconButton } from 'react-toolbox/lib/button';
 
 class DeviceList extends Component {
   render() {
-    const { devices, deviceId, linkDevice, deleteDevice } = this.props;
+    const { devices, linkedDeviceId, linkDevice, deleteDevice } = this.props;
     const deviceList = devices.map((device, index) => {
       let icon;
       const rightActions = [];
@@ -16,11 +16,12 @@ class DeviceList extends Component {
         icon = (<i key={0} className={'fa fa-cog fa-spin fa-fw'} />);
       } else if (!device.isLoading && device.isAvailable) {
         icon = 'network_wifi';
-        rightActions.push((<IconButton key={0} icon='link' accent={device.id === deviceId} onClick={linkDevice.bind(this, device)} />));
-        // rightActions.push((<IconButton key={1} icon='edit' />));
+        rightActions.push((<IconButton key={0} icon='link' accent={device.id === linkedDeviceId} onClick={linkDevice.bind(this, device)} />));
+        rightActions.push((<IconButton key={1} icon='edit' />));
         rightActions.push((<IconButton key={2} icon='delete' onClick={deleteDevice.bind(this, device)} />));
       } else {
         icon = 'signal_wifi_off';
+        rightActions.push((<IconButton key={1} icon='edit' />));
         rightActions.push((<IconButton key={2} icon='delete' onClick={deleteDevice.bind(this, device)} />));
       }
 
@@ -47,7 +48,7 @@ class DeviceList extends Component {
 DeviceList.propTypes = {
   linkDevice: PropTypes.func.isRequired,
   deleteDevice: PropTypes.func.isRequired,
-  deviceId: PropTypes.string,
+  linkedDeviceId: PropTypes.string,
   devices: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
