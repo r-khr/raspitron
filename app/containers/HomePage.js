@@ -16,11 +16,11 @@ import * as statusActions from '../actions/status';
 class HomePage extends Component {
   render() {
     const { pins, deviceAddress, isLoading, setPin } = this.props;
-    let headerText = 'List of Pins';
+    let headerText;
     let htmlBody;
 
     if (Array.isArray(pins) && pins.length > 0) {
-      headerText += ' - ' + deviceAddress;
+      headerText = deviceAddress;
       htmlBody = (
         <PinList
           pins={pins}
@@ -30,6 +30,7 @@ class HomePage extends Component {
         />
       );
     } else {
+      headerText = 'No device connected';
       htmlBody = (
         <div className={'row'}>
           <p className={'col col-sm-12'}>No device currently linked with Raspitron. Please go to &#39;Device Settings&#39; to manage devices.</p>
