@@ -22,7 +22,7 @@ export function linkDevice(device) {
   console.log(device);
   return {
     type: LINK_DEVICE,
-    deviceId: device.id
+    linkedDeviceId: device.id
   };
 }
 

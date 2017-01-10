@@ -3,27 +3,42 @@ import { getInfo } from '../api/endpoints/hardware';
 
 export const TEST_HARDWARE = 'TEST_HARDWARE';
 export const ADD_HARDWARE = 'ADD_HARDWARE';
+export const UPDATE_HARDWARE = 'UPDATE_HARDWARE';
 export const REMOVE_HARDWARE = 'REMOVE_HARDWARE';
 export const SCAN_HARDWARE_SUCCESS = 'SCAN_HARDWARE_SUCCESS';
 export const SCAN_HARDWARE_ERROR = 'SCAN_HARDWARE_ERROR';
 
-function testDevice(device) {
-  return {
-    type: TEST_HARDWARE,
-    device
-  };
-}
-
-function hardwareSuccess(device) {
+function hardwareTestSuccess(device) {
   return {
     type: SCAN_HARDWARE_SUCCESS,
     device
   };
 }
 
-function hardwareError(device) {
+function hardwareTestError(device) {
   return {
     type: SCAN_HARDWARE_ERROR,
+    device
+  };
+}
+
+function addHardware(device) {
+  return {
+    type: ADD_HARDWARE,
+    device
+  };
+}
+
+function updateHardware(device) {
+  return {
+    type: UPDATE_HARDWARE,
+    device
+  };
+}
+
+function testDevice(device) {
+  return {
+    type: TEST_HARDWARE,
     device
   };
 }
@@ -33,16 +48,29 @@ export function scanAllDevices(devices) {
     devices.forEach(device => {
       dispatch(testDevice(device));
       getInfo(device.address)
-        .then(json => dispatch(hardwareSuccess(device, json)))
-        .catch(dispatch(hardwareError(device)));
+        .then(json => dispatch(hardwareTestSuccess(device, json)))
+        .catch(dispatch(hardwareTestError(device)));
     });
   };
 }
 
 export function addDevice(device) {
-  return {
-    type: ADD_HARDWARE,
-    device
+  return (dispatch) => {
+    dispatch(addHardware(device));
+    dispatch(testDevice(device));
+    getInfo(device.address)
+      .then(json => dispatch(hardwareTestSuccess(device, json)))
+      .catch(dispatch(hardwareTestError(device)));
+  };
+}
+
+export function updateDevice(device) {
+  return (dispatch) => {
+    dispatch(updateHardware(device));
+    dispatch(testDevice(device));
+    getInfo(device.address)
+      .then(json => dispatch(hardwareTestSuccess(device, json)))
+      .catch(dispatch(hardwareTestError(device)));
   };
 }
 

@@ -3,6 +3,7 @@ import Devices from '../constants/devices';
 
 import {
   ADD_HARDWARE,
+  UPDATE_HARDWARE,
   REMOVE_HARDWARE,
   TEST_HARDWARE,
   SCAN_HARDWARE_SUCCESS,
@@ -21,6 +22,18 @@ export default function status(state = INITIAL_STATE, action) {
           ...state.devices,
           action.device
         ]
+      });
+    case UPDATE_HARDWARE:
+      return Object.assign({}, state, {
+        devices: state.devices.map(device => {
+          if (device.id === action.device.id) {
+            return Object.assign({}, device, {
+              name: action.device.name,
+              address: action.device.address
+            });
+          }
+          return device;
+        })
       });
     case REMOVE_HARDWARE:
       return Object.assign({}, state, {

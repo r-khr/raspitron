@@ -1,11 +1,13 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
+import Guid from 'guid';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import { Button } from 'react-toolbox/lib/button';
+import { Button } from 'react-toolbox/lib/button';
 import * as hardwareActions from '../actions/hardware';
 import * as statusActions from '../actions/status';
 import DeviceList from '../components/deviceList';
+import DeviceModal from '../components/deviceModal';
 
 // ------------------------------------------------------
 // Settings Page
@@ -15,17 +17,48 @@ import DeviceList from '../components/deviceList';
 // ------------------------------------------------------
 
 class SettingsPage extends Component {
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isModalActive: false
+    };
+
     this.props.scanAllDevices(this.props.devices);
   }
+
+  openModalFunc() {
+    this.setState({
+      isModalActive: true
+    });
+  }
+
+  cancelModalFunc() {
+    this.setState({
+      isModalActive: false
+    });
+  }
+
+  addDeviceFunc(name, address) {
+    this.setState({
+      isModalActive: false
+    });
+    this.props.addDevice({
+      id: Guid.raw(),
+      name,
+      address
+    });
+  }
+
   render() {
-    const { devices, deviceId, linkDevice, deleteDevice } = this.props;
+    const { devices, linkedDeviceId, linkDevice, deleteDevice, updateDevice } = this.props;
     const deviceList = Array.isArray(devices) && devices.length > 0 ? (
       <DeviceList
         devices={devices}
-        deviceId={deviceId}
+        linkedDeviceId={linkedDeviceId}
         linkDevice={linkDevice}
         deleteDevice={deleteDevice}
+        updateDevice={updateDevice}
       />
     ) : (
       <p>No devices</p>
@@ -36,25 +69,31 @@ class SettingsPage extends Component {
         <div className={'page-header'}>
           <h3>
             Devices Settings
+            <Button className={'pull-right'} icon='add' onClick={this.openModalFunc.bind(this)} floating mini accent />
           </h3>
         </div>
+        <DeviceModal
+          title={'Add New'}
+          deviceId={''}
+          deviceName={''}
+          deviceAddress={''}
+          isActive={this.state.isModalActive}
+          saveFunc={this.addDeviceFunc.bind(this)}
+          cancelFunc={this.cancelModalFunc.bind(this)}
+        />
         { deviceList }
       </div>
     );
   }
 }
 
-// ------------------------------------------------------------------------
-// todo: Add button
-// <Button className={'pull-right'} icon='add' floating mini accent />
-// ------------------------------------------------------------------------
-
 SettingsPage.propTypes = {
   scanAllDevices: PropTypes.func.isRequired,
   linkDevice: PropTypes.func.isRequired,
   deleteDevice: PropTypes.func.isRequired,
-  // setPin: PropTypes.func.isRequired,
-  deviceId: PropTypes.string.isRequired,
+  addDevice: PropTypes.func.isRequired,
+  updateDevice: PropTypes.func.isRequired,
+  linkedDeviceId: PropTypes.string.isRequired,
   devices: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -70,7 +109,7 @@ SettingsPage.propTypes = {
 function mapStateToProps(state) {
   return {
     devices: state.hardware.devices,
-    deviceId: state.status.deviceId
+    linkedDeviceId: state.status.linkedDeviceId
   };
 }
 

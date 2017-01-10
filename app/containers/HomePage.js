@@ -15,15 +15,15 @@ import * as statusActions from '../actions/status';
 
 class HomePage extends Component {
   componentWillMount() {
-    const device = this.props.devices.find(d => d.id === this.props.deviceId);
+    const device = this.props.devices.find(d => d.id === this.props.linkedDeviceId);
     if (device) {
       this.props.fetchPins(device.address);
     }
   }
 
   render() {
-    const { pins, isLoading, setPin, devices, deviceId } = this.props;
-    const device = devices.find(d => d.id === deviceId);
+    const { pins, isLoading, setPin, devices, linkedDeviceId } = this.props;
+    const device = devices.find(d => d.id === linkedDeviceId);
     let headerText = 'List of Pins';
     let htmlBody;
 
@@ -76,7 +76,7 @@ HomePage.propTypes = {
       ip: PropTypes.string
     })
   ),
-  deviceId: PropTypes.string.isRequired,
+  linkedDeviceId: PropTypes.string.isRequired,
   pins: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
@@ -91,7 +91,7 @@ function mapStateToProps(state) {
   return {
     pins: state.status.pins,
     isLoading: state.status.isLoading,
-    deviceId: state.status.deviceId,
+    linkedDeviceId: state.status.linkedDeviceId,
     devices: state.hardware.devices,
   };
 }
