@@ -6,7 +6,11 @@ import {
 } from '../actions/status';
 
 const INITIAL_STATE = {
-  linkedDeviceId: '',
+  device: {
+    id: '',
+    address: '',
+    name: ''
+  },
   pins: [],
   isLoading: true
 };
@@ -15,7 +19,7 @@ export default function status(state = INITIAL_STATE, action) {
   switch (action.type) {
     case LINK_DEVICE:
       return Object.assign({}, state, {
-        linkedDeviceId: action.linkedDeviceId
+        device: action.device
       });
     case SENT_PI_REQUEST:
       return Object.assign({}, state, {

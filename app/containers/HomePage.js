@@ -14,26 +14,18 @@ import * as statusActions from '../actions/status';
 // ------------------------------------------------------
 
 class HomePage extends Component {
-  componentWillMount() {
-    const device = this.props.devices.find(d => d.id === this.props.linkedDeviceId);
-    if (device) {
-      this.props.fetchPins(device.address);
-    }
-  }
-
   render() {
-    const { pins, isLoading, setPin, devices, linkedDeviceId } = this.props;
-    const device = devices.find(d => d.id === linkedDeviceId);
+    const { pins, deviceAddress, isLoading, setPin } = this.props;
     let headerText = 'List of Pins';
     let htmlBody;
 
-    if (device && Array.isArray(pins) && pins.length > 0) {
-      headerText += ' - ' + device.address;
+    if (Array.isArray(pins) && pins.length > 0) {
+      headerText += ' - ' + deviceAddress;
       htmlBody = (
         <PinList
           pins={pins}
           isLoading={isLoading}
-          address={device.address}
+          address={deviceAddress}
           setPin={setPin}
         />
       );
@@ -70,13 +62,7 @@ HomePage.propTypes = {
   fetchPins: PropTypes.func.isRequired,
   setPin: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  devices: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      ip: PropTypes.string
-    })
-  ),
-  linkedDeviceId: PropTypes.string.isRequired,
+  deviceAddress: PropTypes.string.isRequired,
   pins: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
@@ -91,8 +77,7 @@ function mapStateToProps(state) {
   return {
     pins: state.status.pins,
     isLoading: state.status.isLoading,
-    linkedDeviceId: state.status.linkedDeviceId,
-    devices: state.hardware.devices,
+    deviceAddress: state.status.device.address
   };
 }
 

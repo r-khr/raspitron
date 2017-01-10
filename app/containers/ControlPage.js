@@ -12,9 +12,6 @@ import PinControl from '../components/pinControl';
 //
 // ---------------------------------------------------------
 class ControlPage extends Component {
-  componentWillMount() {
-    this.props.fetchPins();
-  }
   render() {
     const { pins } = this.props;
     const pinList = Array.isArray(pins) && pins.length > 0 ?
@@ -53,14 +50,14 @@ ControlPage.propTypes = {
       number: PropTypes.number,
       state: PropTypes.state
     })
-  ).isRequired,
+  ).isRequired
 };
 
 
 function mapStateToProps(state) {
   return {
     pins: state.status.pins,
-    isLoading: state.status.isLoading,
+    isLoading: state.status.isLoading
   };
 }
 

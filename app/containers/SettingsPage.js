@@ -51,12 +51,12 @@ class SettingsPage extends Component {
   }
 
   render() {
-    const { devices, linkedDeviceId, linkDevice, deleteDevice, updateDevice } = this.props;
+    const { devices, linkedDeviceId, connectToDevice, deleteDevice, updateDevice } = this.props;
     const deviceList = Array.isArray(devices) && devices.length > 0 ? (
       <DeviceList
         devices={devices}
         linkedDeviceId={linkedDeviceId}
-        linkDevice={linkDevice}
+        connectToDevice={connectToDevice}
         deleteDevice={deleteDevice}
         updateDevice={updateDevice}
       />
@@ -89,7 +89,7 @@ class SettingsPage extends Component {
 
 SettingsPage.propTypes = {
   scanAllDevices: PropTypes.func.isRequired,
-  linkDevice: PropTypes.func.isRequired,
+  connectToDevice: PropTypes.func.isRequired,
   deleteDevice: PropTypes.func.isRequired,
   addDevice: PropTypes.func.isRequired,
   updateDevice: PropTypes.func.isRequired,
@@ -109,7 +109,7 @@ SettingsPage.propTypes = {
 function mapStateToProps(state) {
   return {
     devices: state.hardware.devices,
-    linkedDeviceId: state.status.linkedDeviceId
+    linkedDeviceId: state.status.device.id
   };
 }
 

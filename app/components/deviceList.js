@@ -45,17 +45,17 @@ class DeviceList extends Component {
   }
 
   render() {
-    const { devices, linkedDeviceId, linkDevice, deleteDevice } = this.props;
+    const { devices, linkedDeviceId, connectToDevice, deleteDevice } = this.props;
     const deviceList = devices.map((device, index) => {
       let icon;
       const rightActions = [];
 
       // Loading and unavailable
       if (device.isLoading && !device.isAvailable) {
-        icon = (<i className={'fa fa-cog fa-spin'} />);
+        icon = (<i className={'material-icons fa-spin'}>loop</i>);
       } else if (!device.isLoading && device.isAvailable) {
         icon = 'network_wifi';
-        rightActions.push((<IconButton key={0} icon='link' accent={device.id === linkedDeviceId} onClick={linkDevice.bind(this, device)} />));
+        rightActions.push((<IconButton key={0} icon='link' accent={device.id === linkedDeviceId} onClick={connectToDevice.bind(this, device)} />));
         rightActions.push((<IconButton key={1} icon='edit' onClick={this.openModalFunc.bind(this, device)} />));
         rightActions.push((<IconButton key={2} icon='delete' onClick={deleteDevice.bind(this, device)} />));
       } else {
@@ -94,7 +94,7 @@ class DeviceList extends Component {
 }
 
 DeviceList.propTypes = {
-  linkDevice: PropTypes.func.isRequired,
+  connectToDevice: PropTypes.func.isRequired,
   updateDevice: PropTypes.func.isRequired,
   deleteDevice: PropTypes.func.isRequired,
   linkedDeviceId: PropTypes.string,

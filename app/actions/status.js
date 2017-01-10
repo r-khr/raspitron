@@ -18,11 +18,17 @@ function recieveStatus(json) {
   };
 }
 
-export function linkDevice(device) {
-  console.log(device);
+function linkDevice(device) {
   return {
     type: LINK_DEVICE,
-    linkedDeviceId: device.id
+    device
+  };
+}
+
+export function connectToDevice(device) {
+  return (dispatch) => {
+    dispatch(linkDevice(device));
+    dispatch(fetchPins(device.address));
   };
 }
 
