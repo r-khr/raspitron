@@ -44,7 +44,8 @@ app.on('ready', async () => {
       show: false,
       width: 800,
       height: 540,
-      fullscreen: true
+      fullscreen: true,
+      frame: false
     });
   } else if (process.env.NODE_ENV === 'development') {
     mainWindow = new BrowserWindow({

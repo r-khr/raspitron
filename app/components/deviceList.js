@@ -33,7 +33,6 @@ class DeviceList extends Component {
   }
 
   saveDeviceFunc(name, address, id) {
-    console.log(name, address);
     this.setState({
       isModalActive: false
     });

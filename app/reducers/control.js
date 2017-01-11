@@ -11,7 +11,7 @@ export default function status(state = INITIAL_STATE, action) {
   switch (action.type) {
     case SET_PIN_RULE:
       return Object.assign({}, state, {
-        device: action.device
+        rules: action.device
       });
     default:
       return state;
