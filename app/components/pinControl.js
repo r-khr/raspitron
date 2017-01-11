@@ -16,10 +16,16 @@ class PinControl extends Component {
     };
   }
 
-  openModalFunc(device) {
+  openModalFunc() {
     this.setState({
-      time: device.id,
-      setTo: device.name,
+      isModalActive: true
+    });
+  }
+
+  editModalFunc(rule) {
+    this.setState({
+      time: rule.time,
+      setTo: rule.setTo,
       isModalActive: true
     });
   }
@@ -50,17 +56,15 @@ class PinControl extends Component {
           caption={rule.time}
         />
       );
-    }) : (
-      <div className={'col col-sm-12'}>
-        No Rules
-      </div>
-    );
+    }) : null;
 
     return (
       <div className={'panel panel-default'}>
-        <div className={'panel-heading'}>{title}</div>
+        <div className={'panel-heading'}>
+          {title}
+        </div>
         <div className={'panel-body'}>
-          <Button icon='add' label='Add Rule' raised primary />
+          <Button icon='add' label='Add Rule' onClick={this.openModalFunc.bind(this)} raised primary />
           <List className={'row'}>
             { pinRules }
           </List>
@@ -70,8 +74,8 @@ class PinControl extends Component {
           time={this.state.time}
           setTo={this.state.setTo}
           isActive={this.state.isModalActive}
-          saveFunc={this.savePinRuleFunc}
-          cancelFunc={this.cancelModalFunc}
+          saveFunc={this.savePinRuleFunc.bind(this)}
+          cancelFunc={this.cancelModalFunc.bind(this)}
         />
       </div>
     );
