@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
 import { List, ListItem } from 'react-toolbox/lib/list';
 import { Button } from 'react-toolbox/lib/button';
 import PinRuleModal from './pinRuleModal';
@@ -9,8 +10,10 @@ class PinControl extends Component {
   constructor(props) {
     super(props);
 
+    const time = new Date();
+
     this.state = {
-      time: new Date(),
+      time,
       setTo: false,
       isModalActive: false
     };
@@ -40,23 +43,25 @@ class PinControl extends Component {
     this.setState({
       isModalActive: false
     });
-    console.log(time, setTo);
+
+    this.props.addPinRule(this.props.number, {
+      time,
+      setTo
+    });
   }
 
   render() {
     const { title, rules } = this.props;
     const pinRules = Array.isArray(rules) && rules.length > 0 ?
-    rules.map((rule, index) => {
-      return (
-        <ListItem
-          key={index}
-          ripple={false}
-          leftIcon={'logo'}
-          rightActions={'stff'}
-          caption={rule.time}
-        />
-      );
-    }) : null;
+    rules.map((rule, index) => (
+      <ListItem
+        key={index}
+        ripple={false}
+        leftIcon={'logo'}
+        caption={moment(rule.time).format('LT')}
+        legend={rule.setTo ? 'Turn On' : 'Turn Off'}
+      />
+    )) : null;
 
     return (
       <div className={'panel panel-default'}>
@@ -84,13 +89,15 @@ class PinControl extends Component {
 
 PinControl.propTypes = {
   title: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
   rules: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
-      time: PropTypes.string,
-      isOn: PropTypes.bool
+      time: PropTypes.date,
+      setTo: PropTypes.bool
     })
-  )
+  ),
+  addPinRule: PropTypes.func.isRequired
 };
 
 export default PinControl;

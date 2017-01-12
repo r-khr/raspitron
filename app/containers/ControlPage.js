@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as statusActions from '../actions/status';
+import * as deviceActions from '../actions/device';
 import PinControl from '../components/pinControl';
 
 // ---------------------------------------------------------
@@ -13,13 +13,15 @@ import PinControl from '../components/pinControl';
 // ---------------------------------------------------------
 class ControlPage extends Component {
   render() {
-    const { pins } = this.props;
+    const { pins, addPinRule } = this.props;
     const pinList = Array.isArray(pins) && pins.length > 0 ?
       this.props.pins.map((pin, index) => (
         <PinControl
           key={index}
           title={pin.name}
-          isOn={pin.state === 1}
+          number={pin.number}
+          rules={pin.rules}
+          addPinRule={addPinRule}
         />
       )) : (
         <div className={'row'}>
@@ -41,14 +43,21 @@ class ControlPage extends Component {
 }
 
 ControlPage.propTypes = {
-  fetchPins: PropTypes.func.isRequired,
+  addPinRule: PropTypes.func.isRequired,
   setPin: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   pins: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
       number: PropTypes.number,
-      state: PropTypes.state
+      state: PropTypes.state,
+      rules: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          time: PropTypes.date,
+          setTo: PropTypes.bool
+        })
+      )
     })
   ).isRequired
 };
@@ -56,13 +65,13 @@ ControlPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    pins: state.status.pins,
-    isLoading: state.status.isLoading
+    pins: state.device.pins,
+    isLoading: state.device.isLoading
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(statusActions, dispatch);
+  return bindActionCreators(deviceActions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ControlPage);

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'react-toolbox/lib/button';
 import * as hardwareActions from '../actions/hardware';
-import * as statusActions from '../actions/status';
+import * as deviceActions from '../actions/device';
 import DeviceList from '../components/deviceList';
 import DeviceModal from '../components/deviceModal';
 
@@ -51,11 +51,11 @@ class SettingsPage extends Component {
   }
 
   render() {
-    const { devices, linkedDeviceId, connectToDevice, deleteDevice, updateDevice } = this.props;
+    const { devices, deviceId, connectToDevice, deleteDevice, updateDevice } = this.props;
     const deviceList = Array.isArray(devices) && devices.length > 0 ? (
       <DeviceList
         devices={devices}
-        linkedDeviceId={linkedDeviceId}
+        linkedDeviceId={deviceId}
         connectToDevice={connectToDevice}
         deleteDevice={deleteDevice}
         updateDevice={updateDevice}
@@ -93,7 +93,7 @@ SettingsPage.propTypes = {
   deleteDevice: PropTypes.func.isRequired,
   addDevice: PropTypes.func.isRequired,
   updateDevice: PropTypes.func.isRequired,
-  linkedDeviceId: PropTypes.string.isRequired,
+  deviceId: PropTypes.string.isRequired,
   devices: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -109,12 +109,12 @@ SettingsPage.propTypes = {
 function mapStateToProps(state) {
   return {
     devices: state.hardware.devices,
-    linkedDeviceId: state.status.device.id
+    deviceId: state.device.id
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...hardwareActions, ...statusActions }, dispatch);
+  return bindActionCreators({ ...hardwareActions, ...deviceActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

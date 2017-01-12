@@ -8,10 +8,12 @@ class PinRuleModal extends Component {
   constructor(props) {
     super(props);
 
+    const time = new Date();
+
     this.state = {
       isModalActive: false,
-      time: new Date(),
       setTo: false,
+      time,
     };
   }
 
@@ -30,7 +32,7 @@ class PinRuleModal extends Component {
 
   hanglePinChange() {
     this.setState({
-      pin: !this.state.pin
+      setTo: !this.state.setTo
     });
   }
 
@@ -56,7 +58,7 @@ class PinRuleModal extends Component {
           value={this.state.time}
         />
         <Switch
-          checked={this.state.pin}
+          checked={this.state.setTo}
           label="Pin State"
           onChange={this.hanglePinChange.bind(this)}
         />
@@ -67,7 +69,7 @@ class PinRuleModal extends Component {
 
 PinRuleModal.propTypes = {
   title: PropTypes.string.isRequired,
-  time: PropTypes.string.isRequired,
+  time: PropTypes.date,
   setTo: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
   saveFunc: PropTypes.func.isRequired,

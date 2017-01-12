@@ -9,12 +9,14 @@ PINS = [
     {
         'number': 1,
         'name': 'GPIO 01',
-        'state': 0
+        'state': 0,
+        'rules': []
     },
     {
         'number': 2,
         'name': 'GPIO 02',
-        'state': 0
+        'state': 0,
+        'rules': []
     }
 ]
 

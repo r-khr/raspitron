@@ -12,12 +12,14 @@ PINS = [
     {
         'number': 4,
         'name': 'Light',
-        'state': GPIO.LOW
+        'state': GPIO.LOW,
+        'rules': []
     },
     {
         'number': 14,
         'name': 'Fan',
-        'state': GPIO.LOW
+        'state': GPIO.LOW,
+        'rules': []
     }
 ]
 
