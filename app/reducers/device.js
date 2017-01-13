@@ -1,8 +1,8 @@
 // @flow
 import {
   LINK_DEVICE,
-  ADD_PIN_RULE,
   SET_PIN_RULE,
+  DELETE_PIN_RULE,
   SENT_PI_REQUEST,
   RECEIVED_PI_REQUEST
 } from '../actions/device';
@@ -32,10 +32,23 @@ export default function status(state = INITIAL_STATE, action) {
         pins: action.pins,
         isLoading: false
       });
-    case ADD_PIN_RULE:
+    case SET_PIN_RULE:
       return Object.assign({}, state, {
         pins: state.pins.map(pin => {
           if (pin.number === action.number) {
+            if (pin.rules.find(rule => rule.id === action.rule.id) !== undefined) {
+              return Object.assign({}, pin, {
+                rules: pin.rules.map(rule => {
+                  if (rule.id === action.rule.id) {
+                    return Object.assign({}, rule, {
+                      time: action.rule.time,
+                      setTo: action.rule.setTo
+                    });
+                  }
+                  return rule;
+                })
+              });
+            }
             return Object.assign({}, pin, {
               rules: [
                 ...pin.rules,
@@ -46,20 +59,12 @@ export default function status(state = INITIAL_STATE, action) {
           return pin;
         })
       });
-    case SET_PIN_RULE:
+    case DELETE_PIN_RULE:
       return Object.assign({}, state, {
         pins: state.pins.map(pin => {
-          if (pin.number === action.pin.number) {
+          if (pin.number === action.number) {
             return Object.assign({}, pin, {
-              rules: pin.rules.map(rule => {
-                if (rule.id === action.pin.rule.id) {
-                  return Object.assign({}, rule, {
-                    time: action.pin.rule.time,
-                    setTo: action.pin.rule.setTo,
-                  });
-                }
-                return rule;
-              })
+              rules: pin.rules.filter(rule => rule !== action.rule)
             });
           }
           return pin;

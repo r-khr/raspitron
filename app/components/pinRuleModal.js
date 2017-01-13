@@ -5,42 +5,11 @@ import TimePicker from 'react-toolbox/lib/time_picker';
 import Switch from 'react-toolbox/lib/switch';
 
 class PinRuleModal extends Component {
-  constructor(props) {
-    super(props);
-
-    const time = new Date();
-
-    this.state = {
-      isModalActive: false,
-      setTo: false,
-      time,
-    };
-  }
-
-  componentWillReceiveProps(props) {
-    this.setState({
-      time: props.time,
-      setTo: props.setTo
-    });
-  }
-
-  hangleTimeChange(time) {
-    this.setState({
-      time
-    });
-  }
-
-  hanglePinChange() {
-    this.setState({
-      setTo: !this.state.setTo
-    });
-  }
-
   render() {
-    const { title, isActive, saveFunc, cancelFunc } = this.props;
+    const { title, isActive, time, setTo, updateRuleFunc, saveFunc, cancelFunc } = this.props;
     const actions = [
       { label: 'Cancel', onClick: cancelFunc },
-      { label: 'Save', onClick: saveFunc.bind(this, this.state.time, this.state.setTo) }
+      { label: 'Save', onClick: saveFunc }
     ];
 
     return (
@@ -54,13 +23,13 @@ class PinRuleModal extends Component {
         <TimePicker
           format='ampm'
           label='Action Time'
-          onChange={this.hangleTimeChange.bind(this)}
-          value={this.state.time}
+          onChange={updateRuleFunc.bind(this, 'time')}
+          value={time}
         />
         <Switch
-          checked={this.state.setTo}
-          label="Pin State"
-          onChange={this.hanglePinChange.bind(this)}
+          checked={setTo}
+          label='Pin State'
+          onChange={updateRuleFunc.bind(this, 'setTo')}
         />
       </Dialog>
     );
@@ -68,10 +37,11 @@ class PinRuleModal extends Component {
 }
 
 PinRuleModal.propTypes = {
-  title: PropTypes.string.isRequired,
-  time: PropTypes.date,
-  setTo: PropTypes.bool.isRequired,
+  title: PropTypes.string,
+  time: PropTypes.instanceOf(Date),
+  setTo: PropTypes.bool,
   isActive: PropTypes.bool.isRequired,
+  updateRuleFunc: PropTypes.func.isRequired,
   saveFunc: PropTypes.func.isRequired,
   cancelFunc: PropTypes.func.isRequired,
 };

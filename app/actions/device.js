@@ -2,7 +2,8 @@
 import { getPins, postPin } from '../api/endpoints/pins';
 
 export const LINK_DEVICE = 'LINK_DEVICE';
-export const ADD_PIN_RULE = 'ADD_PIN_RULE';
+export const SET_PIN_RULE = 'SET_PIN_RULE';
+export const DELETE_PIN_RULE = 'DELETE_PIN_RULE';
 export const SENT_PI_REQUEST = 'SENT_PI_REQUEST';
 export const RECEIVED_PI_REQUEST = 'RECEIVED_PI_REQUEST';
 
@@ -49,10 +50,17 @@ export function setPin(address, number, action) {
   };
 }
 
-export function addPinRule(number, rule) {
-  console.log(number, rule);
+export function setPinRule(number, rule) {
   return {
-    type: ADD_PIN_RULE,
+    type: SET_PIN_RULE,
+    number,
+    rule
+  };
+}
+
+export function deletePinRule(number, rule) {
+  return {
+    type: DELETE_PIN_RULE,
     number,
     rule
   };

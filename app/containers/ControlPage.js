@@ -4,6 +4,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as deviceActions from '../actions/device';
 import PinControl from '../components/pinControl';
+import Guid from 'guid';
+import PinRuleModal from '../components/pinRuleModal';
+
 
 // ---------------------------------------------------------
 // Control Page
@@ -11,9 +14,66 @@ import PinControl from '../components/pinControl';
 // This page provides programmatic control with device pins.
 //
 // ---------------------------------------------------------
+
 class ControlPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      time: new Date(),
+      setTo: false,
+      isModalActive: false
+    };
+  }
+
+  newPinRule(title, number) {
+    this.setState({
+      title,
+      number,
+      id: Guid.raw(),
+      isModalActive: true
+    });
+  }
+
+  editPinRule(title, number, rule) {
+    this.setState({
+      title,
+      number,
+      id: rule.id,
+      time: rule.time,
+      setTo: rule.setTo,
+      isModalActive: true
+    });
+  }
+
+  updateRule(name, value) {
+    this.setState({
+      [name]: value
+    });
+  }
+
+  cancelModalFunc() {
+    this.setState({
+      isModalActive: false
+    });
+  }
+
+  savePinRuleFunc() {
+    this.setState({
+      isModalActive: false
+    });
+
+    const rule = {
+      id: this.state.id,
+      time: this.state.time,
+      setTo: this.state.setTo
+    };
+
+    this.props.setPinRule(this.state.number, rule);
+  }
+
   render() {
-    const { pins, addPinRule } = this.props;
+    const { pins, deletePinRule } = this.props;
     const pinList = Array.isArray(pins) && pins.length > 0 ?
       this.props.pins.map((pin, index) => (
         <PinControl
@@ -21,7 +81,9 @@ class ControlPage extends Component {
           title={pin.name}
           number={pin.number}
           rules={pin.rules}
-          addPinRule={addPinRule}
+          newPinRule={this.newPinRule.bind(this)}
+          editPinRule={this.editPinRule.bind(this)}
+          deletePinRule={deletePinRule.bind(this)}
         />
       )) : (
         <div className={'row'}>
@@ -36,6 +98,15 @@ class ControlPage extends Component {
             Programmatic Pin Control
           </h3>
         </div>
+        <PinRuleModal
+          title={this.state.title}
+          time={this.state.time}
+          setTo={this.state.setTo}
+          updateRuleFunc={this.updateRule.bind(this)}
+          isActive={this.state.isModalActive}
+          saveFunc={this.savePinRuleFunc.bind(this)}
+          cancelFunc={this.cancelModalFunc.bind(this)}
+        />
         { pinList }
       </div>
     );
@@ -43,7 +114,8 @@ class ControlPage extends Component {
 }
 
 ControlPage.propTypes = {
-  addPinRule: PropTypes.func.isRequired,
+  setPinRule: PropTypes.func.isRequired,
+  deletePinRule: PropTypes.func.isRequired,
   setPin: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   pins: PropTypes.arrayOf(
