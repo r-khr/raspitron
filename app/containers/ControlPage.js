@@ -1,10 +1,10 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
+import Guid from 'guid';
 import { connect } from 'react-redux';
 import * as deviceActions from '../actions/device';
 import PinControl from '../components/pinControl';
-import Guid from 'guid';
 import PinRuleModal from '../components/pinRuleModal';
 
 
@@ -69,27 +69,26 @@ class ControlPage extends Component {
       setTo: this.state.setTo
     };
 
-    this.props.setPinRule(this.state.number, rule);
+    this.props.setPinRuleAndOrder(this.state.number, rule);
   }
 
   render() {
-    const { pins, deletePinRule } = this.props;
-    const pinList = Array.isArray(pins) && pins.length > 0 ?
-      this.props.pins.map((pin, index) => (
-        <PinControl
-          key={index}
-          title={pin.name}
-          number={pin.number}
-          rules={pin.rules}
-          newPinRule={this.newPinRule.bind(this)}
-          editPinRule={this.editPinRule.bind(this)}
-          deletePinRule={deletePinRule.bind(this)}
-        />
-      )) : (
-        <div className={'row'}>
-          <p className={'col col-sm-12'}>Pins have not loaded.</p>
-        </div>
-      );
+    const { pins, deletePinRuleAndOrder } = this.props;
+    const pinList = Array.isArray(pins) && pins.length > 0 ? this.props.pins.map((pin, index) => (
+      <PinControl
+        key={index}
+        title={pin.name}
+        number={pin.number}
+        rules={pin.rules}
+        newPinRule={this.newPinRule.bind(this)}
+        editPinRule={this.editPinRule.bind(this)}
+        deletePinRule={deletePinRuleAndOrder.bind(this)}
+      />
+    )) : (
+      <div className={'row'}>
+        <p className={'col col-sm-12'}>Pins have not loaded.</p>
+      </div>
+    );
 
     return (
       <div>
@@ -114,8 +113,8 @@ class ControlPage extends Component {
 }
 
 ControlPage.propTypes = {
-  setPinRule: PropTypes.func.isRequired,
-  deletePinRule: PropTypes.func.isRequired,
+  setPinRuleAndOrder: PropTypes.func.isRequired,
+  deletePinRuleAndOrder: PropTypes.func.isRequired,
   setPin: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   pins: PropTypes.arrayOf(
@@ -137,8 +136,8 @@ ControlPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    pins: state.device.pins,
-    isLoading: state.device.isLoading
+    pins: state.device.get('pins').toJS(),
+    isLoading: state.device.get('isLoading')
   };
 }
 
