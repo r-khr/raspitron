@@ -75,11 +75,6 @@ export default validate(merge(baseConfig, {
         loader: 'url?limit=10000&mimetype=image/svg+xml'
       },
 
-      // {
-      //   test: /\.(eot|svg|ttf|woff|woff2)$/,
-      //   loader: 'file?name=[name].[ext]'
-      // },
-
       // Images
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,

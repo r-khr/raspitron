@@ -60,6 +60,12 @@
         "deb",
         "AppImage"
       ]
+    },
+    "armv7l": {
+      "target": [
+        "deb",
+        "AppImage"
+      ]
     }
   },
   "directories": {
@@ -136,6 +142,7 @@
     "webpack-validator": "^2.3.0"
   },
   "dependencies": {
+    "normalizr": "^3.1.0",
     "bootstrap": "^3.3.7",
     "electron-debug": "^1.1.0",
     "font-awesome": "^4.7.0",

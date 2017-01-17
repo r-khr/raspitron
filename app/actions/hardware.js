@@ -11,35 +11,54 @@ export const SCAN_HARDWARE_ERROR = 'SCAN_HARDWARE_ERROR';
 function hardwareTestSuccess(device) {
   return {
     type: SCAN_HARDWARE_SUCCESS,
-    device
+    payload: {
+      isLoading: false,
+      isAvailable: true,
+      ...device
+    }
   };
 }
 
 function hardwareTestError(device) {
   return {
     type: SCAN_HARDWARE_ERROR,
-    device
+    payload: {
+      isLoading: false,
+      isAvailable: false,
+      ...device
+    }
   };
 }
 
 function addHardware(device) {
   return {
     type: ADD_HARDWARE,
-    device
+    payload: device
   };
 }
 
 function updateHardware(device) {
   return {
     type: UPDATE_HARDWARE,
-    device
+    payload: device
   };
 }
 
 function testDevice(device) {
   return {
     type: TEST_HARDWARE,
-    device
+    payload: {
+      isLoading: true,
+      isAvailable: false,
+      ...device
+    }
+  };
+}
+
+export function deleteDevice(device) {
+  return {
+    type: REMOVE_HARDWARE,
+    payload: device
   };
 }
 
@@ -73,11 +92,3 @@ export function updateDevice(device) {
       .catch(dispatch(hardwareTestError(device)));
   };
 }
-
-export function deleteDevice(device) {
-  return {
-    type: REMOVE_HARDWARE,
-    device
-  };
-}
-

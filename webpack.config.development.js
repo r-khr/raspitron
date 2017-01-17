@@ -55,13 +55,6 @@ export default validate(merge(baseConfig, {
         ]
       },
 
-
-      // {
-      //   test: /\.(eot|svg|ttf|woff|woff2)$/,
-      //   loader: 'file?name=[name].[ext]'
-      // },
-
-
       // Fonts
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,

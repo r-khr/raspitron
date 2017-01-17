@@ -75,7 +75,7 @@ HomePage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    pins: state.device.get('pins'),
+    pins: state.device.get('pins').toJS(),
     isLoading: state.device.get('isLoading'),
     deviceAddress: state.device.get('address')
   };

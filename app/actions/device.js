@@ -3,7 +3,8 @@ import { getPins, postPin } from '../api/endpoints/pins';
 
 export const LINK_DEVICE = 'LINK_DEVICE';
 export const ORDER_PIN_RULES = 'ORDER_PIN_RULES';
-export const SET_PIN_RULE = 'SET_PIN_RULE';
+export const ADD_PIN_RULE = 'ADD_PIN_RULE';
+export const UPDATE_PIN_RULE = 'UPDATE_PIN_RULE';
 export const DELETE_PIN_RULE = 'DELETE_PIN_RULE';
 export const SENT_PI_REQUEST = 'SENT_PI_REQUEST';
 export const RECEIVED_PI_REQUEST = 'RECEIVED_PI_REQUEST';
@@ -28,9 +29,17 @@ function linkDevice(device) {
   };
 }
 
-function setPinRule(number, rule) {
+function addPinRule(number, rule) {
   return {
-    type: SET_PIN_RULE,
+    type: ADD_PIN_RULE,
+    number,
+    rule
+  };
+}
+
+function updatePinRule(number, rule) {
+  return {
+    type: UPDATE_PIN_RULE,
     number,
     rule
   };
@@ -74,9 +83,16 @@ export function setPin(address, number, action) {
   };
 }
 
-export function setPinRuleAndOrder(number, rule) {
+export function addPinRuleAndOrder(number, rule) {
   return (dispatch) => {
-    dispatch(setPinRule(number, rule));
+    dispatch(addPinRule(number, rule));
+    dispatch(orderPinRules(number, rule));
+  };
+}
+
+export function updatePinRuleAndOrder(number, rule) {
+  return (dispatch) => {
+    dispatch(updatePinRule(number, rule));
     dispatch(orderPinRules(number, rule));
   };
 }

@@ -1,16 +1,17 @@
 // @flow
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 import sortRulesByMinutesOfDate from '../utils/rule';
 import {
   LINK_DEVICE,
-  SET_PIN_RULE,
+  ADD_PIN_RULE,
+  UPDATE_PIN_RULE,
   DELETE_PIN_RULE,
   ORDER_PIN_RULES,
   SENT_PI_REQUEST,
   RECEIVED_PI_REQUEST
 } from '../actions/device';
 
-const INITIAL_STATE = Map({
+const INITIAL_STATE = fromJS({
   id: '',
   address: '',
   name: '',
@@ -20,6 +21,10 @@ const INITIAL_STATE = Map({
 
 
 export default function status(state = INITIAL_STATE, action) {
+  function getPinIndex(number) {
+    return state.get('pins').findIndex(pin => pin.get('number') === number);
+  }
+
   switch (action.type) {
     case LINK_DEVICE:
       return state.merge({
@@ -34,33 +39,35 @@ export default function status(state = INITIAL_STATE, action) {
         pins: action.pins,
         isLoading: false
       });
-    case SET_PIN_RULE:
-      return Object.assign({}, state, {
-        pins: state.pins.map(pin => {
-          if (pin.number === action.number) {
-            if (pin.rules.find(rule => rule.id === action.rule.id) !== undefined) {
-              return Object.assign({}, pin, {
-                rules: pin.rules.map(rule => {
-                  if (rule.id === action.rule.id) {
-                    return Object.assign({}, rule, {
-                      time: action.rule.time,
-                      setTo: action.rule.setTo
-                    });
-                  }
-                  return rule;
-                })
-              });
-            }
-            return Object.assign({}, pin, {
-              rules: [
-                ...pin.rules,
-                action.rule
-              ]
-            });
-          }
-          return pin;
-        })
-      });
+    // case SET_PIN_RULE:
+    //   return Object.assign({}, state, {
+    //     pins: state.pins.map(pin => {
+    //       if (pin.number === action.number) {
+    //         if (pin.rules.find(rule => rule.id === action.rule.id) !== undefined) {
+    //           return Object.assign({}, pin, {
+    //             rules: pin.rules.map(rule => {
+    //               if (rule.id === action.rule.id) {
+    //                 return Object.assign({}, rule, {
+    //                   time: action.rule.time,
+    //                   setTo: action.rule.setTo
+    //                 });
+    //               }
+    //               return rule;
+    //             })
+    //           });
+    //         }
+    //         return Object.assign({}, pin, {
+    //           rules: [
+    //             ...pin.rules,
+    //             action.rule
+    //           ]
+    //         });
+    //       }
+    //       return pin;
+    //     })
+    //   });
+    case ADD_PIN_RULE:
+      return state.updateIn(['pins', getPinIndex(action.number), 'rules'], rules => rules.push(fromJS(action.rule)));
     case DELETE_PIN_RULE:
       return Object.assign({}, state, {
         pins: state.pins.map(pin => {
@@ -73,16 +80,8 @@ export default function status(state = INITIAL_STATE, action) {
         })
       });
     case ORDER_PIN_RULES:
-      return Object.assign({}, state, {
-        pins: state.pins.map(pin => {
-          if (pin.number === action.number) {
-            return Object.assign({}, pin, {
-              rules: pin.rules.sort(sortRulesByMinutesOfDate)
-            });
-          }
-          return pin;
-        })
-      });
+      return state.updateIn(['pins', getPinIndex(action.number)],
+        pin => pin.set('rules', pin.get('rules').sort(sortRulesByMinutesOfDate)));
     default:
       return state;
   }
