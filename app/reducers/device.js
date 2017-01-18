@@ -25,6 +25,10 @@ export default function status(state = INITIAL_STATE, action) {
     return state.get('pins').findIndex(pin => pin.get('number') === number);
   }
 
+  function getRuleIndex(pinNumber, ruleId) {
+    return state.getIn(['pins', getPinIndex(action.number), 'rules']).findIndex(rule => rule.get('id') === ruleId);
+  }
+
   switch (action.type) {
     case LINK_DEVICE:
       return state.merge({
@@ -39,49 +43,15 @@ export default function status(state = INITIAL_STATE, action) {
         pins: action.pins,
         isLoading: false
       });
-    // case SET_PIN_RULE:
-    //   return Object.assign({}, state, {
-    //     pins: state.pins.map(pin => {
-    //       if (pin.number === action.number) {
-    //         if (pin.rules.find(rule => rule.id === action.rule.id) !== undefined) {
-    //           return Object.assign({}, pin, {
-    //             rules: pin.rules.map(rule => {
-    //               if (rule.id === action.rule.id) {
-    //                 return Object.assign({}, rule, {
-    //                   time: action.rule.time,
-    //                   setTo: action.rule.setTo
-    //                 });
-    //               }
-    //               return rule;
-    //             })
-    //           });
-    //         }
-    //         return Object.assign({}, pin, {
-    //           rules: [
-    //             ...pin.rules,
-    //             action.rule
-    //           ]
-    //         });
-    //       }
-    //       return pin;
-    //     })
-    //   });
     case ADD_PIN_RULE:
       return state.updateIn(['pins', getPinIndex(action.number), 'rules'], rules => rules.push(fromJS(action.rule)));
+    case UPDATE_PIN_RULE:
+      return state.mergeIn(['pins', getPinIndex(action.number), 'rules', getRuleIndex(action.number, action.rule.id)], fromJS(action.rule));
     case DELETE_PIN_RULE:
-      return Object.assign({}, state, {
-        pins: state.pins.map(pin => {
-          if (pin.number === action.number) {
-            return Object.assign({}, pin, {
-              rules: pin.rules.filter(rule => rule !== action.rule)
-            });
-          }
-          return pin;
-        })
-      });
+      return state.deleteIn(['pins', getPinIndex(action.number), 'rules', getRuleIndex(action.number, action.rule.id)]);
     case ORDER_PIN_RULES:
-      return state.updateIn(['pins', getPinIndex(action.number)],
-        pin => pin.set('rules', pin.get('rules').sort(sortRulesByMinutesOfDate)));
+      return state.setIn(['pins', getPinIndex(action.number), 'rules'],
+        fromJS(state.getIn(['pins', getPinIndex(action.number), 'rules']).toJS().sort(sortRulesByMinutesOfDate)));
     default:
       return state;
   }

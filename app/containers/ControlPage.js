@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import Guid from 'guid';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import * as deviceActions from '../actions/device';
 import PinControl from '../components/pinControl';
@@ -24,6 +25,13 @@ class ControlPage extends Component {
       setTo: false,
       isModalActive: false
     };
+
+    debugger;
+    const d = new Date();
+    const time = moment(d).format('LT');
+    const newTime = moment(time, 'h:mm a').toDate();
+
+    console.log(newTime);
   }
 
   newPinRule(title, number) {
@@ -69,7 +77,14 @@ class ControlPage extends Component {
       setTo: this.state.setTo
     };
 
-    this.props.setPinRuleAndOrder(this.state.number, rule);
+    const pin = this.props.pins.find(p => p.number === this.state.number);
+    const ruleExists = pin.rules.filter(r => r.id === rule.id).length > 0;
+
+    if (ruleExists) {
+      this.props.updatePinRuleAndOrder(this.state.number, rule);
+    } else {
+      this.props.addPinRuleAndOrder(this.state.number, rule);
+    }
   }
 
   render() {
@@ -113,7 +128,8 @@ class ControlPage extends Component {
 }
 
 ControlPage.propTypes = {
-  setPinRuleAndOrder: PropTypes.func.isRequired,
+  addPinRuleAndOrder: PropTypes.func.isRequired,
+  updatePinRuleAndOrder: PropTypes.func.isRequired,
   deletePinRuleAndOrder: PropTypes.func.isRequired,
   setPin: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
