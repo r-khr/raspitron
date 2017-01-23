@@ -1,6 +1,8 @@
 """ Index server file with GPIO Pins """
 
 from flask import Flask, render_template, request, jsonify
+import time
+import schedule
 import RPi.GPIO as GPIO
 
 APP = Flask(__name__)
@@ -13,7 +15,16 @@ PINS = [
         'number': 4,
         'name': 'Light',
         'state': GPIO.LOW,
-        'rules': []
+        'rules': [
+            {
+                'setTo': True,
+                'time': '9:00'
+            },
+            {
+                'setTo': False,
+                'time': '21:00'
+            }
+        ]
     },
     {
         'number': 14,
@@ -23,11 +34,40 @@ PINS = [
     }
 ]
 
+print "--- Started Raspitron Server --- \n"
+print "Running initial pin states"
 
 # Set each pin as an output and make it low:
 for _pin in PINS:
     GPIO.setup(_pin['number'], GPIO.OUT)
     GPIO.output(_pin['number'], GPIO.LOW)
+
+def job(pin_number, action_time, set_to):
+    """ Scheduler function """
+    sched_str = 'Scheduled Action --- ' + action_time
+    sched_str += ' set pin #' + str(pin_number) + ' to ' + str(set_to)
+    print sched_str
+    GPIO.output(pin_number, GPIO.LOW if set_to else GPIO.HIGH)
+
+"""
+Function for schedule
+"""
+def sched():
+    for _pin in PINS:
+        if len(_pin['rules']) > 0:
+            for rule in _pin['rules']:
+                _num = _pin['number']
+                _time = rule['time']
+                _set = rule['setTo']
+                schedule.every().day.at(_time).do(job, _num, _time, _set)
+
+
+sched()
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
 
 @APP.route("/status", methods=['GET'])
 def status():

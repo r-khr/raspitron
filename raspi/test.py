@@ -1,6 +1,8 @@
 """ Test Server File without GPIO Pins """
 
 from flask import Flask, render_template, request, jsonify
+import time
+import schedule
 
 APP = Flask(__name__)
 
@@ -10,7 +12,20 @@ PINS = [
         'number': 1,
         'name': 'GPIO 01',
         'state': 0,
-        'rules': []
+        'rules': [
+            {
+                'setTo': True,
+                'time': '9:00'
+            },
+            {
+                'setTo': True,
+                'time': '15:53'
+            },
+            {
+                'setTo': False,
+                'time': '21:00'
+            }
+        ]
     },
     {
         'number': 2,
@@ -19,6 +34,39 @@ PINS = [
         'rules': []
     }
 ]
+
+print "--- Started Raspitron Server --- \n"
+print "Running initial pin states"
+
+for _pin in PINS:
+    print '---'
+    print '  Pin Number: ' + str(_pin['number'])
+    print '  Pin Name: "' + _pin['name'] + '"'
+
+
+def job(pin_number, action_time, set_to):
+    """ Scheduler """
+    gpio = 'GPIO.LOW' if set_to else 'GPIO.HIGH'
+    print 'At ' + action_time + ' set pin #' + str(pin_number) + ' to ' + gpio
+
+def sched():
+    """ Function for schedule """
+    for _pin in PINS:
+        if len(_pin['rules']) > 0:
+            for rule in _pin['rules']:
+                _num = _pin['number']
+                _time = rule['time']
+                _set = rule['setTo']
+                schedule.every().day.at(_time).do(job, _num, _time, _set)
+
+sched()
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
+
+
 
 @APP.route("/status", methods=['GET'])
 def get_status():

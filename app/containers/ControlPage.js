@@ -2,7 +2,6 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import Guid from 'guid';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import * as deviceActions from '../actions/device';
 import PinControl from '../components/pinControl';
@@ -25,13 +24,6 @@ class ControlPage extends Component {
       setTo: false,
       isModalActive: false
     };
-
-    debugger;
-    const d = new Date();
-    const time = moment(d).format('LT');
-    const newTime = moment(time, 'h:mm a').toDate();
-
-    console.log(newTime);
   }
 
   newPinRule(title, number) {
