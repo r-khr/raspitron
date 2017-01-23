@@ -40,7 +40,7 @@ print "Running initial pin states"
 # Set each pin as an output and make it low:
 for _pin in PINS:
     GPIO.setup(_pin['number'], GPIO.OUT)
-    GPIO.output(_pin['number'], GPIO.LOW)
+    GPIO.output(_pin['number'], _pin['state'])
 
 def job(pin_number, action_time, set_to):
     """ Scheduler function """
