@@ -49,7 +49,7 @@ def job(pin_number, action_time, set_to):
     gpio = 'GPIO.LOW' if set_to else 'GPIO.HIGH'
     print 'At ' + action_time + ' set pin #' + str(pin_number) + ' to ' + gpio
 
-def sched():
+def scheduler():
     """ Function for schedule """
     schedule.clear()
 
@@ -65,8 +65,8 @@ def sched():
         schedule.run_pending()
         time.sleep(1)
 
-
-sched()
+# Run scheduler
+scheduler()
 
 
 @APP.route("/status", methods=['GET'])
