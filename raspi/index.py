@@ -52,7 +52,6 @@ def job(pin_number, action_time, set_to):
 def scheduler():
     """ Function for schedule """
     schedule.clear()
-
     for _pin in PINS:
         if len(_pin['rules']) > 0:
             for rule in _pin['rules']:
@@ -60,7 +59,6 @@ def scheduler():
                 _time = rule['time']
                 _set = rule['setTo']
                 schedule.every().day.at(_time).do(job, _num, _time, _set)
-
     while True:
         schedule.run_pending()
         time.sleep(1)
