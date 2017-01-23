@@ -14,7 +14,7 @@ PINS = [
     {
         'number': 4,
         'name': 'Light',
-        'state': GPIO.LOW,
+        'state': GPIO.HIGH,
         'rules': [
             {
                 'setTo': True,
@@ -29,7 +29,7 @@ PINS = [
     {
         'number': 14,
         'name': 'Fan',
-        'state': GPIO.LOW,
+        'state': GPIO.HIGH,
         'rules': []
     }
 ]
@@ -47,7 +47,7 @@ def job(pin_number, action_time, set_to):
     sched_str = 'Scheduled Action --- ' + action_time
     sched_str += ' set pin #' + str(pin_number) + ' to ' + str(set_to)
     print sched_str
-    GPIO.output(pin_number, GPIO.LOW if set_to else GPIO.HIGH)
+    GPIO.output(pin_number, GPIO.HIGH if set_to else GPIO.LOW)
 
 def scheduler():
     """ Function for schedule """
