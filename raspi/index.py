@@ -49,10 +49,10 @@ def job(pin_number, action_time, set_to):
     print sched_str
     GPIO.output(pin_number, GPIO.LOW if set_to else GPIO.HIGH)
 
-"""
-Function for schedule
-"""
-def sched():
+def scheduler():
+    """ Function for schedule """
+    schedule.clear()
+
     for _pin in PINS:
         if len(_pin['rules']) > 0:
             for rule in _pin['rules']:
@@ -61,12 +61,12 @@ def sched():
                 _set = rule['setTo']
                 schedule.every().day.at(_time).do(job, _num, _time, _set)
 
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
-sched()
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# Run scheduler
+scheduler()
 
 
 @APP.route("/status", methods=['GET'])
