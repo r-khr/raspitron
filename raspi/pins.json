@@ -1,0 +1,25 @@
+{
+    "PINS": [
+        {
+            "number": 4,
+            "name": "Light",
+            "state": "True",
+            "rules": [
+                {
+                    "setTo": "True",
+                    "time": "9:00"
+                },
+                {
+                    "setTo": "False",
+                    "time": "21:00"
+                }
+            ]
+        },
+        {
+            "number": 14,
+            "name": "Fan",
+            "state": "True",
+            "rules": []
+        }
+    ]
+}
