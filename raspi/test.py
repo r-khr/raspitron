@@ -2,38 +2,21 @@
 
 from flask import Flask, render_template, request, jsonify
 import time
+import json
+import os
 import schedule
 
 APP = Flask(__name__)
 
+# Current File Location
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
 # Create a dictionary called pins to store the pin number, name, and pin state:
-PINS = [
-    {
-        'number': 1,
-        'name': 'GPIO 01',
-        'state': 0,
-        'rules': [
-            {
-                'setTo': True,
-                'time': '9:00'
-            },
-            {
-                'setTo': True,
-                'time': '16:08'
-            },
-            {
-                'setTo': False,
-                'time': '21:00'
-            }
-        ]
-    },
-    {
-        'number': 2,
-        'name': 'GPIO 02',
-        'state': 0,
-        'rules': []
-    }
-]
+with open(os.path.join(__location__, 'pins.json')) as data_file:
+    JSON_DATA = json.load(data_file)
+
+PINS = JSON_DATA['PINS']
 
 print "--- Started Raspitron Server --- \n"
 print "Running initial pin states"

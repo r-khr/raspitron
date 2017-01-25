@@ -1,105 +1,38 @@
 // @flow
-import { getPins, postPin } from '../api/endpoints/pins';
+import * as PinActions from './pins';
 
-export const LINK_DEVICE = 'LINK_DEVICE';
-export const ORDER_PIN_RULES = 'ORDER_PIN_RULES';
-export const ADD_PIN_RULE = 'ADD_PIN_RULE';
-export const UPDATE_PIN_RULE = 'UPDATE_PIN_RULE';
-export const DELETE_PIN_RULE = 'DELETE_PIN_RULE';
-export const SENT_PI_REQUEST = 'SENT_PI_REQUEST';
-export const RECEIVED_PI_REQUEST = 'RECEIVED_PI_REQUEST';
-
-function requestStatus() {
-  return {
-    type: SENT_PI_REQUEST
-  };
-}
-
-function recieveStatus(json) {
-  return {
-    type: RECEIVED_PI_REQUEST,
-    pins: json.pins
-  };
-}
+export const SET_DEVICE = 'SET_DEVICE';
+export const SENT_REQUEST_TO_DEVICE = 'SENT_REQUEST_TO_DEVICE';
+export const RECIEVED_REQUEST_FROM_DEVICE = 'RECIEVED_REQUEST_FROM_DEVICE';
 
 function linkDevice(device) {
   return {
-    type: LINK_DEVICE,
-    device
+    type: SET_DEVICE,
+    payload: device
   };
 }
 
-function addPinRule(number, rule) {
+export function sentRequest() {
   return {
-    type: ADD_PIN_RULE,
-    number,
-    rule
+    type: SET_DEVICE,
+    payload: {
+      isLoading: true
+    }
   };
 }
 
-function updatePinRule(number, rule) {
+export function recievedRequest() {
   return {
-    type: UPDATE_PIN_RULE,
-    number,
-    rule
-  };
-}
-
-function deletePinRule(number, rule) {
-  return {
-    type: DELETE_PIN_RULE,
-    number,
-    rule
-  };
-}
-
-function orderPinRules(number) {
-  return {
-    type: ORDER_PIN_RULES,
-    number
+    type: RECIEVED_REQUEST_FROM_DEVICE,
+    payload: {
+      isLoading: false
+    }
   };
 }
 
 export function connectToDevice(device) {
   return (dispatch) => {
     dispatch(linkDevice(device));
-    dispatch(fetchPins(device.address));
-  };
-}
-
-export function fetchPins(address) {
-  return (dispatch) => {
-    dispatch(requestStatus());
-    return getPins(address)
-      .then(json => dispatch(recieveStatus(json)));
-  };
-}
-
-export function setPin(address, number, action) {
-  return (dispatch) => {
-    dispatch(requestStatus());
-    return postPin(address, number, action)
-      .then(json => dispatch(recieveStatus(json)));
-  };
-}
-
-export function addPinRuleAndOrder(number, rule) {
-  return (dispatch) => {
-    dispatch(addPinRule(number, rule));
-    dispatch(orderPinRules(number, rule));
-  };
-}
-
-export function updatePinRuleAndOrder(number, rule) {
-  return (dispatch) => {
-    dispatch(updatePinRule(number, rule));
-    dispatch(orderPinRules(number, rule));
-  };
-}
-
-export function deletePinRuleAndOrder(number, rule) {
-  return (dispatch) => {
-    dispatch(deletePinRule(number, rule));
-    dispatch(orderPinRules(number, rule));
+    dispatch(PinActions.fetchPins(device.address));
   };
 }
