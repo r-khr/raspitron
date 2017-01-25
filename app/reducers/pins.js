@@ -3,7 +3,7 @@ import {
   SET_PINS,
 } from '../actions/pins';
 
-export default function status(state = [], action) {
+export default function pins(state = [], action) {
   switch (action.type) {
     case SET_PINS:
       return state.merge({

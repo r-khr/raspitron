@@ -108,7 +108,7 @@ SettingsPage.propTypes = {
 function mapStateToProps(state) {
   return {
     devices: state.hardware,
-    deviceId: state.device.get('id')
+    deviceId: state.device.id
   };
 }
 

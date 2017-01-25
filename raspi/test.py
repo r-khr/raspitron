@@ -4,19 +4,12 @@ from flask import Flask, render_template, request, jsonify
 import time
 import json
 import os
+import classes.loader as loader 
 import schedule
 
 APP = Flask(__name__)
 
-# Current File Location
-__location__ = os.path.realpath(
-    os.path.join(os.getcwd(), os.path.dirname(__file__)))
-
-# Create a dictionary called pins to store the pin number, name, and pin state:
-with open(os.path.join(__location__, 'pins.json')) as data_file:
-    JSON_DATA = json.load(data_file)
-
-PINS = JSON_DATA['PINS']
+PINS = loader.pins()
 
 print "--- Started Raspitron Server --- \n"
 print "Running initial pin states"

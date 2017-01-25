@@ -12,7 +12,7 @@ import {
 
 const INITIAL_STATE = Devices;
 
-export default function status(state = INITIAL_STATE, action) {
+export default function hardware(state = INITIAL_STATE, action) {
   switch (action.type) {
     case ADD_HARDWARE:
       return [

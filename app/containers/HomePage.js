@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'react-toolbox/lib/button';
 import PinList from '../components/pinList';
-import * as deviceActions from '../actions/device';
+import * as pinActions from '../actions/pins';
 
 // ------------------------------------------------------
 // Home Page
@@ -75,14 +75,14 @@ HomePage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    pins: state.device.get('pins').toJS(),
-    isLoading: state.device.get('isLoading'),
-    deviceAddress: state.device.get('address')
+    pins: state.pins,
+    isLoading: state.device.isLoading,
+    deviceAddress: state.device.address
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(deviceActions, dispatch);
+  return bindActionCreators(pinActions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

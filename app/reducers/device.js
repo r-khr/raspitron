@@ -12,7 +12,7 @@ const INITIAL_STATE = {
   isLoading: true
 };
 
-export default function status(state = INITIAL_STATE, action) {
+export default function device(state = INITIAL_STATE, action) {
   switch (action.type) {
     case SET_DEVICE:
     case SENT_REQUEST_TO_DEVICE:
