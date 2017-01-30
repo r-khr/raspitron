@@ -4,12 +4,14 @@ from flask import Flask, render_template, request, jsonify
 import time
 import json
 import os
-import classes.loader as loader 
 import schedule
+from classes.loader import Loader 
 
 APP = Flask(__name__)
 
-PINS = loader.pins()
+loader = Loader()
+
+PINS = loader.get_pins()
 
 print "--- Started Raspitron Server --- \n"
 print "Running initial pin states"
