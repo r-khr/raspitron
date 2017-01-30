@@ -2,7 +2,8 @@
 import json
 import os
 
-class Loader():
+class FileManager():
+    """ Pin File Manager """
     def __init__(self):
         self.location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         self.pin_path = os.path.join(self.location, '../data/pins.json')

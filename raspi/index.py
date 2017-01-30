@@ -1,9 +1,9 @@
 """ Index server file with GPIO Pins """
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify
 import RPi.GPIO as GPIO
-from utils.loader import Loader
-from utils.scheduler import Scheduler
+from raspi.utils.FileManager import FileManager
+from raspi.utils.Scheduler import Scheduler
 
 APP = Flask(__name__)
 
@@ -13,8 +13,8 @@ print "#---------------------------------------#"
 
 GPIO.setmode(GPIO.BCM)
 
-loader = Loader()
-PINS = loader.get()
+FILE_MANAGER = FileManager()
+PINS = FILE_MANAGER.get()
 
 # Create a dictionary called pins to store the pin number, name, and pin state:
 
@@ -27,10 +27,9 @@ for _pin in PINS:
     GPIO.output(_pin['number'], GPIO.HIGH if _pin['state'] else GPIO.LOW)
 
 print "--- Starting Scheduler ---"
-scheduler = Scheduler(PINS, GPIO)
+SCHEDULER = Scheduler(PINS, GPIO)
 # Run scheduler
-scheduler.start()
-
+SCHEDULER.start()
 
 @APP.route("/status", methods=['GET'])
 def status():
@@ -67,26 +66,6 @@ def status_post(pin_number, pin_action):
     }
 
     return jsonify(**json_data)
-
-# @APP.route("/status/<pin_number>/<pin_action>", methods=['POST'])
-# def post_pin_status(pin_number, pin_action):
-#     """ Update pin status template """
-#     pin_number = int(pin_number)
-
-#     for pin in PINS:
-#         if pin['number'] == pin_number:
-#             if pin_action == "on":
-#                 pin['state'] = 1
-#                 GPIO.output(pin_number, GPIO.HIGH)
-#             elif pin_action == "off":
-#                 pin['state'] = 0
-#                 GPIO.output(pin_number, GPIO.LOW)
-
-#     template_data = {
-#         'pins' : PINS
-#     }
-#     # Pass the template data into the template main.html and return it to the user
-#     return jsonify(**template_data)
 
 if __name__ == "__main__":
     APP.run(host='0.0.0.0', port=80, debug=True)

@@ -1,8 +1,8 @@
 """ Test Server File without GPIO Pins """
 
-from flask import Flask, render_template, request, jsonify
-from utils.loader import Loader 
-from utils.scheduler import Scheduler 
+from flask import Flask, request, jsonify
+from raspi.utils.FileManager import FileManager
+from raspi.utils.Scheduler import Scheduler
 
 APP = Flask(__name__)
 
@@ -10,12 +10,12 @@ print "#---------------------------------------#"
 print "#-------   STARTING RASPITRON   --------#"
 print "#---------------------------------------#"
 
-loader = Loader()
-PINS = loader.get()
-scheduler = Scheduler(PINS, None)
+FILE_MANAGER = FileManager()
+PINS = FILE_MANAGER.get()
+SCHEDULER = Scheduler(PINS, None)
 
 # Run scheduler
-scheduler.start()
+SCHEDULER.start()
 
 @APP.route("/status", methods=['GET'])
 def get_status():
@@ -27,23 +27,16 @@ def get_status():
 @APP.route("/status", methods=['POST'])
 def post_status():
     """ Update pin status template """
-    print request.data
+    # Update Pin Status
 
-    # pin_number = int(pin_number)
-    # pin_value = 0
 
-    # for pin in PINS:
-    #     if pin['number'] == pin_number:
-    #         if pin_action == "on":
-    #             pin['state'] = 1
-    #         elif pin_action == "off":
-    #             pin['state'] = 0
+    # Save New Pin Data
+    FILE_MANAGER.save(request.data)
 
-    template_data = {
-        'pins' : PINS
-    }
     # Pass the template data into the template main.html and return it to the user
-    return jsonify(**template_data)
+    return jsonify(**{
+        'pins' : request.data
+    })
 
 
 if __name__ == "__main__":

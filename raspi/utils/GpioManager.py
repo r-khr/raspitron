@@ -1,6 +1,6 @@
 """ Loader functions """
 
-class Manager():
+class GpioManager():
     def __init__(self, GPIO):
         self.gpio = GPIO
 
