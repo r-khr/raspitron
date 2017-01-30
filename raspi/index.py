@@ -2,8 +2,8 @@
 
 from flask import Flask, request, jsonify
 import RPi.GPIO as GPIO
-from raspi.utils.FileManager import FileManager
-from raspi.utils.Scheduler import Scheduler
+from utils.FileManager import FileManager
+from utils.Scheduler import Scheduler
 
 APP = Flask(__name__)
 
