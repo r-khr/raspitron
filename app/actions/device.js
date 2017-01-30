@@ -12,9 +12,9 @@ function linkDevice(device) {
   };
 }
 
-export function sentRequest() {
+export function requestStatus() {
   return {
-    type: SET_DEVICE,
+    type: SENT_REQUEST_TO_DEVICE,
     payload: {
       isLoading: true
     }

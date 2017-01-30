@@ -17,16 +17,16 @@ export function fetchPins(address) {
   return (dispatch) => {
     dispatch(DeviceActions.requestStatus);
     return getPins(address)
-      .then(json => dispatch(setPins(json)))
-      .then(dispatch(DeviceActions.recieveStatus));
+      .then(json => dispatch(setPins(json.pins)))
+      .then(dispatch(DeviceActions.recievedRequest));
   };
 }
 
-export function setPin(address, number, action) {
+export function postPins(address, pins) {
   return (dispatch) => {
     dispatch(DeviceActions.requestStatus);
-    return postPin(address, number, action)
-      .then(json => dispatch(setPins(json)))
-      .then(dispatch(DeviceActions.recieveStatus));
+    return postPin(address, pins)
+      .then(json => dispatch(setPins(json.pins)))
+      .then(dispatch(DeviceActions.recievedRequest));
   };
 }

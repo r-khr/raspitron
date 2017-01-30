@@ -20,23 +20,24 @@ scheduler.start()
 @APP.route("/status", methods=['GET'])
 def get_status():
     """ Get pin status template """
-    template_data = {
+    return jsonify({
         'pins' : PINS
-    }
-    return jsonify(**template_data)
+    })
 
-@APP.route("/status/<pin_number>/<pin_action>", methods=['POST'])
-def post_status(pin_number, pin_action):
+@APP.route("/status", methods=['POST'])
+def post_status():
     """ Update pin status template """
-    pin_number = int(pin_number)
-    pin_value = 0
+    print request.data
 
-    for pin in PINS:
-        if pin['number'] == pin_number:
-            if pin_action == "on":
-                pin['state'] = 1
-            elif pin_action == "off":
-                pin['state'] = 0
+    # pin_number = int(pin_number)
+    # pin_value = 0
+
+    # for pin in PINS:
+    #     if pin['number'] == pin_number:
+    #         if pin_action == "on":
+    #             pin['state'] = 1
+    #         elif pin_action == "off":
+    #             pin['state'] = 0
 
     template_data = {
         'pins' : PINS

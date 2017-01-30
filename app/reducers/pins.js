@@ -6,10 +6,7 @@ import {
 export default function pins(state = [], action) {
   switch (action.type) {
     case SET_PINS:
-      return state.merge({
-        pins: action.pins,
-        isLoading: false
-      });
+      return action.payload;
     default:
       return state;
   }

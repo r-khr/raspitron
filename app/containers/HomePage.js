@@ -14,8 +14,19 @@ import * as pinActions from '../actions/pins';
 // ------------------------------------------------------
 
 class HomePage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.setPin = this.setPin.bind(this);
+  }
+
+  setPin(number, pinState) {
+    console.log(number, pinState);
+    this.props.postPins(this.props.deviceAddress, this.props.pins);
+  }
+
   render() {
-    const { pins, deviceAddress, isLoading, setPin } = this.props;
+    const { pins, deviceAddress, isLoading } = this.props;
     let headerText;
     let htmlBody;
 
@@ -25,8 +36,7 @@ class HomePage extends Component {
         <PinList
           pins={pins}
           isLoading={isLoading}
-          address={deviceAddress}
-          setPin={setPin}
+          setPin={this.setPin}
         />
       );
     } else {
@@ -57,10 +67,11 @@ class HomePage extends Component {
       </div>
     );
   }
+
 }
 
 HomePage.propTypes = {
-  setPin: PropTypes.func.isRequired,
+  postPins: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   deviceAddress: PropTypes.string.isRequired,
   pins: PropTypes.arrayOf(

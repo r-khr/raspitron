@@ -4,11 +4,10 @@ import PinSwitch from './pinSwitch';
 
 class PinList extends Component {
   render() {
-    const { setPin, isLoading, pins, address } = this.props;
+    const { setPin, isLoading, pins } = this.props;
     const htmlPins = pins.map((pin, index) => {
       function updatePin(number, pinState) {
-        const action = pinState === 0 ? 'on' : 'off';
-        setPin(address, number, action);
+        setPin(number, !pinState);
       }
 
       return (
@@ -17,7 +16,7 @@ class PinList extends Component {
             header={'Pin #' + pin.number}
             name={pin.name}
             isLoading={isLoading}
-            isOn={pin.state === 1}
+            isOn={pin.state}
             togglePin={updatePin.bind(this, pin.number, pin.state)}
           />
         </div>
@@ -34,7 +33,6 @@ class PinList extends Component {
 PinList.propTypes = {
   setPin: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  address: PropTypes.string.isRequired,
   pins: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,

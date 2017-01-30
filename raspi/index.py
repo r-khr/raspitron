@@ -1,8 +1,6 @@
 """ Index server file with GPIO Pins """
 
 from flask import Flask, render_template, request, jsonify
-import time
-import schedule
 import RPi.GPIO as GPIO
 from utils.loader import Loader
 from utils.scheduler import Scheduler

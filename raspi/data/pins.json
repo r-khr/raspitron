@@ -1,16 +1,16 @@
 [
     {
         "rules": [
-            {"setTo": "True", "time": "9:00"},
-            {"setTo": "False", "time": "21:00"}
+            {"setTo": true, "time": "9:00"},
+            {"setTo": false, "time": "21:00"}
         ],
-        "state": "True",
+        "state": true,
         "number": 4,
         "name": "Light"
     },
     {
         "rules": [],
-        "state": "True",
+        "state": true,
         "number": 14,
         "name": "Fan"
     }
