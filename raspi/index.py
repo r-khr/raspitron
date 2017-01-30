@@ -4,35 +4,21 @@ from flask import Flask, render_template, request, jsonify
 import time
 import schedule
 import RPi.GPIO as GPIO
+from utils.loader import Loader
+from utils.scheduler import Scheduler
 
 APP = Flask(__name__)
 
+print "#---------------------------------------#"
+print "#-------   STARTING RASPITRON   --------#"
+print "#---------------------------------------#"
+
 GPIO.setmode(GPIO.BCM)
 
+loader = Loader()
+PINS = loader.get()
+
 # Create a dictionary called pins to store the pin number, name, and pin state:
-PINS = [
-    {
-        'number': 4,
-        'name': 'Light',
-        'state': GPIO.HIGH,
-        'rules': [
-            {
-                'setTo': True,
-                'time': '9:00'
-            },
-            {
-                'setTo': False,
-                'time': '21:00'
-            }
-        ]
-    },
-    {
-        'number': 14,
-        'name': 'Fan',
-        'state': GPIO.HIGH,
-        'rules': []
-    }
-]
 
 print "--- Started Raspitron Server --- \n"
 print "Running initial pin states"
@@ -40,31 +26,12 @@ print "Running initial pin states"
 # Set each pin as an output and make it low:
 for _pin in PINS:
     GPIO.setup(_pin['number'], GPIO.OUT)
-    GPIO.output(_pin['number'], _pin['state'])
+    GPIO.output(_pin['number'], GPIO.HIGH if _pin['state'] else GPIO.LOW)
 
-def job(pin_number, action_time, set_to):
-    """ Scheduler function """
-    sched_str = 'Scheduled Action --- ' + action_time
-    sched_str += ' set pin #' + str(pin_number) + ' to ' + str(set_to)
-    print sched_str
-    GPIO.output(pin_number, GPIO.HIGH if set_to else GPIO.LOW)
-
-def scheduler():
-    """ Function for schedule """
-    schedule.clear()
-    for _pin in PINS:
-        if len(_pin['rules']) > 0:
-            for rule in _pin['rules']:
-                _num = _pin['number']
-                _time = rule['time']
-                _set = rule['setTo']
-                schedule.every().day.at(_time).do(job, _num, _time, _set)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-
+print "--- Starting Scheduler ---"
+scheduler = Scheduler(PINS, GPIO)
 # Run scheduler
-scheduler()
+scheduler.start()
 
 
 @APP.route("/status", methods=['GET'])
@@ -73,7 +40,11 @@ def status():
     # For each pin, read the pin state and store it in the pins dictionary:
     for pin in PINS:
         pin_number = int(pin['number'])
-        pin['state'] = GPIO.input(pin_number)
+        pin_state = GPIO.input(pin_number)
+        if pin_state == GPIO.HIGH:
+            pin['state'] = "True"
+        else:
+            pin['state'] = "False"
     # Put the pin dictionary into the template data dictionary:
     json_data = {
         'pins' : PINS

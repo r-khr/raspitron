@@ -1,51 +1,21 @@
 """ Test Server File without GPIO Pins """
 
 from flask import Flask, render_template, request, jsonify
-import time
-import json
-import os
-import schedule
-from classes.loader import Loader 
+from utils.loader import Loader 
+from utils.scheduler import Scheduler 
 
 APP = Flask(__name__)
 
+print "#---------------------------------------#"
+print "#-------   STARTING RASPITRON   --------#"
+print "#---------------------------------------#"
+
 loader = Loader()
-
-PINS = loader.get_pins()
-
-print "--- Started Raspitron Server --- \n"
-print "Running initial pin states"
-
-for _pin in PINS:
-    print '---'
-    print '  Pin Number: ' + str(_pin['number'])
-    print '  Pin Name: "' + _pin['name'] + '"'
-
-
-def job(pin_number, action_time, set_to):
-    """ Scheduler """
-    gpio = 'GPIO.LOW' if set_to else 'GPIO.HIGH'
-    print 'At ' + action_time + ' set pin #' + str(pin_number) + ' to ' + gpio
-
-def scheduler():
-    """ Function for schedule """
-    schedule.clear()
-
-    for _pin in PINS:
-        if len(_pin['rules']) > 0:
-            for rule in _pin['rules']:
-                _num = _pin['number']
-                _time = rule['time']
-                _set = rule['setTo']
-                schedule.every().day.at(_time).do(job, _num, _time, _set)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+PINS = loader.get()
+scheduler = Scheduler(PINS, None)
 
 # Run scheduler
-scheduler()
-
+scheduler.start()
 
 @APP.route("/status", methods=['GET'])
 def get_status():
