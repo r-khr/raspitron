@@ -28,13 +28,13 @@ def get_status():
 def post_status():
     """ Update pin status template """
     # Update Pin Status
-
+    
 
     # Save New Pin Data
     FILE_MANAGER.save(request.data)
 
     # Pass the template data into the template main.html and return it to the user
-    return jsonify(**{
+    return jsonify({
         'pins' : request.data
     })
 
