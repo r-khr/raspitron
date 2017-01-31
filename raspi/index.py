@@ -18,7 +18,7 @@ PINS = FILE_MANAGER.get()
 
 # Create a dictionary called pins to store the pin number, name, and pin state:
 
-print "--- Started Raspitron Server --- \n"
+print "--- Started Raspitron Server ---"
 print "Running initial pin states"
 
 # Set each pin as an output and make it low:
