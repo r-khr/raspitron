@@ -2,8 +2,8 @@
 
 from flask import Flask, request, jsonify
 import RPi.GPIO as GPIO
-from raspi.utils.FileManager import FileManager
-from raspi.utils.Scheduler import Scheduler
+from utils.FileManager import FileManager
+from utils.Scheduler import Scheduler
 
 APP = Flask(__name__)
 
@@ -12,13 +12,14 @@ print "#-------   STARTING RASPITRON   --------#"
 print "#---------------------------------------#"
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 FILE_MANAGER = FileManager()
 PINS = FILE_MANAGER.get()
 
 # Create a dictionary called pins to store the pin number, name, and pin state:
 
-print "--- Started Raspitron Server --- \n"
+print "--- Started Raspitron Server ---"
 print "Running initial pin states"
 
 # Set each pin as an output and make it low:
@@ -68,4 +69,4 @@ def status_post(pin_number, pin_action):
     return jsonify(**json_data)
 
 if __name__ == "__main__":
-    APP.run(host='0.0.0.0', port=80, debug=True)
+    APP.run(host='0.0.0.0', port=80, debug=False)
