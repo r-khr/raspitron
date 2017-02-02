@@ -12,6 +12,7 @@ print "#-------   STARTING RASPITRON   --------#"
 print "#---------------------------------------#"
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 FILE_MANAGER = FileManager()
 PINS = FILE_MANAGER.get()
