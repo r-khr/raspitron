@@ -21,7 +21,7 @@ SCHEDULER.start()
 def get_status():
     """ Get pin status template """
     return jsonify({
-        'pins' : PINS
+        'pins' : FILE_MANAGER.get()
     })
 
 @APP.route("/status", methods=['POST'])

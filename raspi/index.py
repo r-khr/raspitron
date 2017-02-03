@@ -35,20 +35,9 @@ SCHEDULER.start()
 @APP.route("/status", methods=['GET'])
 def status():
     """ Get pin status template """
-    # For each pin, read the pin state and store it in the pins dictionary:
-    for pin in PINS:
-        pin_number = int(pin['number'])
-        pin_state = GPIO.input(pin_number)
-        if pin_state == GPIO.HIGH:
-            pin['state'] = "True"
-        else:
-            pin['state'] = "False"
-    # Put the pin dictionary into the template data dictionary:
-    json_data = {
-        'pins' : PINS
-    }
-    # Pass the template data into the template main.html and return it to the user
-    return jsonify(**json_data)
+    return jsonify({
+        'pins' : FILE_MANAGER.get()
+    })
 
 @APP.route("/status/<pin_number>/<pin_action>", methods=['POST'])
 def status_post(pin_number, pin_action):
