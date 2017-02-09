@@ -1,7 +1,7 @@
 """ Test Server File without GPIO Pins """
 
 from flask import Flask, request, jsonify
-from utils.FileManager import FileManager
+from utils.GpioManager import GpioManager
 from utils.Scheduler import Scheduler
 
 APP = Flask(__name__)
@@ -10,32 +10,30 @@ print "#---------------------------------------#"
 print "#-------   STARTING RASPITRON   --------#"
 print "#---------------------------------------#"
 
-FILE_MANAGER = FileManager()
-PINS = FILE_MANAGER.get()
-SCHEDULER = Scheduler(PINS, None)
+# Get Pins from GpioManager
+GPIO_MANAGER = GpioManager(None)
+PINS = GPIO_MANAGER.start_pins()
 
 # Run scheduler
+SCHEDULER = Scheduler(PINS, None)
 SCHEDULER.start()
 
 @APP.route("/status", methods=['GET'])
 def get_status():
-    """ Get pin status template """
+    """ Get pins and their status """
+    pins = GPIO_MANAGER.get_current_pins_status()
+
     return jsonify({
-        'pins' : FILE_MANAGER.get()
+        'pins' : pins
     })
 
 @APP.route("/status", methods=['POST'])
 def post_status():
-    """ Update pin status template """
-    # Update Pin Status
-    
+    """ Update pins and their status """
+    pins = GPIO_MANAGER.set_pins_and_save(request.data)
 
-    # Save New Pin Data
-    FILE_MANAGER.save(request.data)
-
-    # Pass the template data into the template main.html and return it to the user
     return jsonify({
-        'pins' : request.data
+        'pins' : pins
     })
 
 

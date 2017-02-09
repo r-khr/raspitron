@@ -3,13 +3,14 @@ import schedule
 import time
 from time import gmtime, strftime
 from threading import Thread
+from GpioManager import GpioManager
 
 class Scheduler(Thread):
     """ Scheduler Thread Class """
     def __init__(self, PINS, GPIO):
         Thread.__init__(self)
         self.pins = PINS
-        self.gpio = GPIO
+        self.manager = GpioManager(GPIO)
         self.daemon = True
 
     def job(self, pin_number, action_time, set_to):
@@ -18,8 +19,7 @@ class Scheduler(Thread):
         sched_str += ' set pin #' + str(pin_number) + ' to ' + str(set_to)
         print sched_str
 
-        if self.gpio is not None:
-            self.gpio.output(pin_number, self.gpio.HIGH if set_to else self.gpio.LOW)
+        self.manager.set_pin_status_and_save(pin_number, set_to)
 
     def run(self):
         """ Function for schedule """
