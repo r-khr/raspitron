@@ -21,9 +21,7 @@ print "--- Running initial pin states ---"
 PINS = GPIO_MANAGER.start_pins()
 
 print "--- Starting Scheduler ---"
-
 SCHEDULER = Scheduler(PINS, GPIO)
-# Run scheduler
 SCHEDULER.start()
 
 print "--- Started Raspitron Server ---"
@@ -41,7 +39,8 @@ def status():
 def status_post():
     """ Update pins and their status """
     pins = GPIO_MANAGER.set_pins_and_save(request.data)
-
+    SCHEDULER.run_scheduler(pins)
+    
     return jsonify(**{
         'pins' : pins
     })

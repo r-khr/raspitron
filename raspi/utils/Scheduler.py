@@ -1,8 +1,7 @@
 """ Scheduler functions """
-import schedule
-import time
-from time import gmtime, strftime
 from threading import Thread
+import time
+import schedule
 from GpioManager import GpioManager
 
 class Scheduler(Thread):
@@ -22,16 +21,23 @@ class Scheduler(Thread):
         self.manager.set_pin_status_and_save(pin_number, set_to)
 
     def run(self):
-        """ Function for schedule """
-        schedule.clear()
-        for _pin in self.pins:
-            if len(_pin['rules']) > 0:
-                for rule in _pin['rules']:
-                    _num = _pin['number']
-                    _time = rule['time']
-                    _set = rule['setTo']
-                    schedule.every().day.at(_time).do(self.job, _num, _time, _set)
+        self.run_scheduler(self.pins)
 
         while True:
             schedule.run_pending()
             time.sleep(1)
+
+
+    def run_scheduler(self, pins):
+        """ Function for schedule """
+        # Clear Existing Schedule
+        schedule.clear()
+
+        # Go through pins and generate new schedule
+        for pin in pins:
+            if len(pin['rules']) > 0:
+                for rule in pin['rules']:
+                    _num = pin['number']
+                    _time = rule['time']
+                    _set = rule['setTo']
+                    schedule.every().day.at(_time).do(self.job, _num, _time, _set)

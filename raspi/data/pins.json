@@ -1,1 +1,1 @@
-[{"rules": [{"setTo": true, "time": "9:00"}, {"setTo": false, "time": "16:25"}, {"setTo": false, "time": "21:00"}], "state": false, "number": 4, "name": "Light"}, {"rules": [], "state": true, "number": 14, "name": "Fan"}]
+[{"rules": [{"setTo": true, "time": "9:00"}, {"setTo": false, "time": "21:00"}], "state": true, "number": 4, "name": "Light"}, {"rules": [], "state": true, "number": 14, "name": "Fan"}]

@@ -1,5 +1,6 @@
 """ Test Server File without GPIO Pins """
 
+import time
 from flask import Flask, request, jsonify
 from utils.GpioManager import GpioManager
 from utils.Scheduler import Scheduler
@@ -11,12 +12,15 @@ print "#-------   STARTING RASPITRON   --------#"
 print "#---------------------------------------#"
 
 # Get Pins from GpioManager
+print "--- Running initial pin states ---"
 GPIO_MANAGER = GpioManager(None)
 PINS = GPIO_MANAGER.start_pins()
 
-# Run scheduler
+print "--- Starting Scheduler ---"
 SCHEDULER = Scheduler(PINS, None)
 SCHEDULER.start()
+
+print "--- Started Raspitron Server ---"
 
 @APP.route("/status", methods=['GET'])
 def get_status():
@@ -31,11 +35,11 @@ def get_status():
 def post_status():
     """ Update pins and their status """
     pins = GPIO_MANAGER.set_pins_and_save(request.data)
+    SCHEDULER.run_scheduler(pins)
 
     return jsonify({
         'pins' : pins
     })
-
 
 if __name__ == "__main__":
     APP.run(host='0.0.0.0', port=80, debug=True)
