@@ -38,9 +38,9 @@ def status():
 @APP.route("/status", methods=['POST'])
 def status_post():
     """ Update pins and their status """
-    pins = GPIO_MANAGER.set_pins_and_save(request.data)
+    recieved_pins = request.get_json()
+    pins = GPIO_MANAGER.set_pins_and_save(recieved_pins)
     SCHEDULER.run_scheduler(pins)
-    
     return jsonify(**{
         'pins' : pins
     })
