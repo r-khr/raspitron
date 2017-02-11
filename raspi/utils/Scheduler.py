@@ -27,7 +27,6 @@ class Scheduler(Thread):
             schedule.run_pending()
             time.sleep(1)
 
-
     def run_scheduler(self, pins):
         """ Function for schedule """
         # Clear Existing Schedule
