@@ -1,12 +1,1 @@
-[
-    {
-        "state": true,
-        "name": "Light",
-        "pin_number": 4
-    },
-    {
-        "state": true,
-        "name": "Fan",
-        "pin_number": 14
-    }
-]
+[{"pin_number": 4, "state": false, "name": "Light"}, {"pin_number": 14, "state": false, "name": "Fan"}]

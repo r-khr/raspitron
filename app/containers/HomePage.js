@@ -14,53 +14,34 @@ import * as pinActions from '../actions/pins';
 // ------------------------------------------------------
 
 class HomePage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.setPin = this.setPin.bind(this);
-  }
-
-  setPin(number, pinState) {
-    console.log(number, pinState);
-    const newPins = this.props.pins.map(pin => {
-      if(pin.number === number){
-        pin.state = pinState;
-      }
-      return pin;
-    });
-    this.props.postPins(this.props.deviceAddress, newPins);
-  }
-
   render() {
-    const { pins, deviceAddress, isLoading } = this.props;
-    let headerText;
-    let htmlBody;
-
-    if (Array.isArray(pins) && pins.length > 0) {
-      headerText = deviceAddress;
-      htmlBody = (
-        <PinList
-          pins={pins}
-          isLoading={isLoading}
-          setPin={this.setPin}
-        />
-      );
-    } else {
-      headerText = 'No device connected';
-      htmlBody = (
-        <div className={'row'}>
-          <p className={'col col-sm-12'}>No device currently linked with Raspitron. Please go to &#39;Device Settings&#39; to manage devices.</p>
-          <div className={'col col-sm-12'}>
-            <Button
-              icon='link'
-              label='Link Device'
-              href='#/settings'
-              raised primary
-            />
-          </div>
-        </div>
-      );
+    const { pins, deviceAddress, isLoading, postPins } = this.props;
+    const headerText = pins.length > 0 ? deviceAddress : 'No device connected';
+    function updatePins(pins) {
+      postPins(deviceAddress, pins);
     }
+
+    const htmlBody = pins.length > 0 ? (
+      <PinList
+        pins={pins}
+        isLoading={isLoading}
+        updatePins={updatePins}
+      />
+    ) : (
+      <div className={'row'}>
+        <p className={'col col-sm-12'}>No device currently linked with Raspitron. Please go to &#39;Device Settings&#39; to manage devices.</p>
+        <div className={'col col-sm-12'}>
+          <Button
+            icon='link'
+            label='Link Device'
+            href='#/settings'
+            raised primary
+          />
+        </div>
+      </div>
+    );
+
+
 
     return (
       <div>
@@ -80,13 +61,7 @@ HomePage.propTypes = {
   postPins: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   deviceAddress: PropTypes.string.isRequired,
-  pins: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      number: PropTypes.number,
-      state: PropTypes.state
-    })
-  ).isRequired
+  pins: PropTypes.array.isRequired
 };
 
 

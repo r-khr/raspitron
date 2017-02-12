@@ -22,6 +22,17 @@ SCHEDULER.start()
 
 print "### Started Raspitron Server"
 
+@APP.route("/info", methods=['GET'])
+def get_info():
+    """ Get pins and their status """
+    pins = GPIO_MANAGER.get_pins()
+    rules = SCHEDULER.get_rules()
+
+    return jsonify({
+        'pins' : pins,
+        'rules': rules
+    })
+
 @APP.route("/pins", methods=['GET'])
 def get_pins():
     """ Get pins and their status """
