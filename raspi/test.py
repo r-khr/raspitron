@@ -35,7 +35,6 @@ def get_status():
 def post_status():
     """ Update pins and their status """
     recieved_pins = request.get_json()
-    print recieved_pins
     pins = GPIO_MANAGER.set_pins_and_save(recieved_pins)
     SCHEDULER.run_scheduler(pins)
     return jsonify({

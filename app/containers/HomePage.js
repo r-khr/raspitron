@@ -22,7 +22,13 @@ class HomePage extends Component {
 
   setPin(number, pinState) {
     console.log(number, pinState);
-    this.props.postPins(this.props.deviceAddress, this.props.pins);
+    const newPins = this.props.pins.map(pin => {
+      if(pin.number === number){
+        pin.state = pinState;
+      }
+      return pin;
+    });
+    this.props.postPins(this.props.deviceAddress, newPins);
   }
 
   render() {
