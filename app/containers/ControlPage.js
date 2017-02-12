@@ -1,9 +1,10 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
+import { Button } from 'react-toolbox/lib/button';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as ruleActions from '../actions/rules';
-import PinControl from '../components/pinControl';
+import RuleList from '../components/ruleList';
 import PinRuleModal from '../components/pinRuleModal';
 
 
@@ -27,14 +28,15 @@ class ControlPage extends Component {
   render() {
     const { pins, rules, fetchRules, deviceAddress } = this.props;
 
-    const pinList = pins.length > 0 ? rules.map((rule, index) => (
-      <PinControl
-        key={index}
-        rule={rule}
-        editPinRule={() => console.log('edit')}
-        deletePinRule={() => console.log('delete')}
+    const ruleList = (
+      <RuleList
+        rules={rules}
+        editRule={() => console.log('edit')}
+        deleteRule={() => console.log('delete')}
       />
-    )) : (
+    );
+    
+    const notConnected = (
       <div className={'row'}>
         <p className={'col col-sm-12'}>Pins have not loaded.</p>
       </div>
@@ -49,11 +51,12 @@ class ControlPage extends Component {
         </div>
         <PinRuleModal
           rule={this.state.rule}
-          isActive={this.state.isModalActive}
           saveFunc={() => console.log('save')}
           cancelFunc={() => console.log('cancel')}
         />
-        { pinList }
+        <Button icon='add' label='Add Rule' onClick={() => console.log('stuff')} raised primary />
+        { ruleList }
+        { notConnected }
       </div>
     );
   }
