@@ -1,7 +1,6 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
-import Guid from 'guid';
 import { connect } from 'react-redux';
 import * as ruleActions from '../actions/rules';
 import PinControl from '../components/pinControl';
@@ -20,75 +19,20 @@ class ControlPage extends Component {
     super(props);
 
     this.state = {
-      time: new Date(),
-      setTo: false,
+      rule: null,
       isModalActive: false
     };
-  }
-
-  newPinRule(title, number) {
-    this.setState({
-      title,
-      number,
-      id: Guid.raw(),
-      isModalActive: true
-    });
-  }
-
-  editPinRule(title, number, rule) {
-    this.setState({
-      title,
-      number,
-      id: rule.id,
-      time: rule.time,
-      setTo: rule.setTo,
-      isModalActive: true
-    });
-  }
-
-  updateRule(name, value) {
-    this.setState({
-      [name]: value
-    });
-  }
-
-  cancelModalFunc() {
-    this.setState({
-      isModalActive: false
-    });
-  }
-
-  savePinRuleFunc() {
-    this.setState({
-      isModalActive: false
-    });
-
-    const rule = {
-      id: this.state.id,
-      time: this.state.time,
-      setTo: this.state.setTo
-    };
-
-    const pin = this.props.pins.find(p => p.number === this.state.number);
-    const ruleExists = pin.rules.filter(r => r.id === rule.id).length > 0;
-
-    if (ruleExists) {
-      this.props.updatePinRuleAndOrder(this.state.number, rule);
-    } else {
-      this.props.addPinRuleAndOrder(this.state.number, rule);
-    }
   }
 
   render() {
-    const { pins, setPinRule, deletePinRule } = this.props;
-    const pinList = Array.isArray(pins) && pins.length > 0 ? this.props.pins.map((pin, index) => (
+    const { pins, rules, fetchRules, deviceAddress } = this.props;
+
+    const pinList = pins.length > 0 ? rules.map((rule, index) => (
       <PinControl
         key={index}
-        title={pin.name}
-        number={pin.number}
         rule={rule}
-        editPinRule={setPinRule}
-        deletePinRule={deletePinRule}
+        editPinRule={() => console.log('edit')}
+        deletePinRule={() => console.log('delete')}
       />
     )) : (
       <div className={'row'}>
@@ -104,13 +48,10 @@ class ControlPage extends Component {
           </h3>
         </div>
         <PinRuleModal
-          title={this.state.title}
-          time={this.state.time}
-          setTo={this.state.setTo}
-          updateRuleFunc={this.updateRule.bind(this)}
+          rule={this.state.rule}
           isActive={this.state.isModalActive}
-          saveFunc={this.savePinRuleFunc.bind(this)}
-          cancelFunc={this.cancelModalFunc.bind(this)}
+          saveFunc={() => console.log('save')}
+          cancelFunc={() => console.log('cancel')}
         />
         { pinList }
       </div>
@@ -119,23 +60,10 @@ class ControlPage extends Component {
 }
 
 ControlPage.propTypes = {
-  setPinRule: PropTypes.func.isRequired,
-  deletePinRule: PropTypes.func.isRequired,
+  fetchRules: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  pins: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      number: PropTypes.number,
-      state: PropTypes.state,
-    })
-  ).isRequired,
-  rules: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      time: PropTypes.date,
-      setTo: PropTypes.bool,
-    })
-  )
+  pins: PropTypes.array.isRequired,
+  rules: PropTypes.array.isRequired,
 };
 
 
@@ -143,7 +71,8 @@ function mapStateToProps(state) {
   return {
     pins: state.pins,
     rules: state.rules,
-    isLoading: state.device.isLoading
+    isLoading: state.device.isLoading,
+    deviceAddress: state.device.address
   };
 }
 

@@ -7,7 +7,7 @@ export function getPins(address) {
   return get(buildEndpoint(address, 'pins'));
 }
 
-export function postPin(address, pins) {
+export function postPins(address, pins) {
   return post(buildEndpoint(address, 'pins'), pins);
 }
 

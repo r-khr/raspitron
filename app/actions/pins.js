@@ -1,9 +1,8 @@
 // @flow
 import * as DeviceActions from './device';
-import { getPins, postPin } from '../api/endpoints/pins';
+import { getPins, postPins } from '../api/endpoints/pins';
 
 export const SET_PINS = 'SET_PINS';
-
 
 function setPins(pins) {
   return {
@@ -18,15 +17,15 @@ export function fetchPins(address) {
     dispatch(DeviceActions.requestStatus);
     return getPins(address)
       .then(json => dispatch(setPins(json.pins)))
-      .then(dispatch(DeviceActions.recievedRequest));
+      .then(dispatch(DeviceActions.receivedRequest));
   };
 }
 
-export function postPins(address, pins) {
+export function updatePins(address, pins) {
   return (dispatch) => {
     dispatch(DeviceActions.requestStatus);
-    return postPin(address, pins)
+    return postPins(address, pins)
       .then(json => dispatch(setPins(json.pins)))
-      .then(dispatch(DeviceActions.recievedRequest));
+      .then(dispatch(DeviceActions.receivedRequest));
   };
 }

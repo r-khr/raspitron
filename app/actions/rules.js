@@ -1,21 +1,16 @@
 // @flow
 import * as PinActions from './pins';
+import * as DeviceActions from './device';
 
-export const SET_RULE = 'SET_RULE';
-export const DELETE_RULE = 'DELETE_RULE';
+import { getRules, postRules } from '../api/endpoints/rules';
+
+export const SET_RULES = 'SET_RULES';
 export const ORDER_RULES = 'ORDER_RULES';
 
-function setRule(rule) {
+function setRules(rules) {
   return {
-    type: SET_RULE,
-    payload: rule
-  };
-}
-
-function deleteRule(rule) {
-  return {
-    type: DELETE_RULE,
-    payload: rule
+    type: SET_RULES,
+    payload: rules
   };
 }
 
@@ -25,16 +20,21 @@ function orderRules() {
   };
 }
 
-export function setPinRule(rule) {
+export function fetchRules(address) {
   return (dispatch) => {
-    dispatch(setRule(rule));
-    dispatch(orderRules());
+    dispatch(DeviceActions.requestStatus);
+    return getRules(address)
+      .then(json => dispatch(setRules(json.rules)))
+      .then(dispatch(DeviceActions.receivedRequest));
   };
 }
 
-export function deletePinRule(rule) {
+export function updateRules(address, rules) {
   return (dispatch) => {
-    dispatch(deleteRule(rule));
-    dispatch(orderRules());
+    dispatch(DeviceActions.requestStatus);
+    return postRules(address, rules)
+      .then(json => dispatch(setRules(json.rules)))
+      .then(dispatch(orderRules()))
+      .then(dispatch(DeviceActions.receivedRequest));
   };
 }
