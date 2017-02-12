@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import Guid from 'guid';
 import { connect } from 'react-redux';
-import * as deviceActions from '../actions/device';
+import * as ruleActions from '../actions/rules';
 import PinControl from '../components/pinControl';
 import PinRuleModal from '../components/pinRuleModal';
 
@@ -120,37 +120,36 @@ class ControlPage extends Component {
 }
 
 ControlPage.propTypes = {
-  addPinRuleAndOrder: PropTypes.func.isRequired,
-  updatePinRuleAndOrder: PropTypes.func.isRequired,
-  deletePinRuleAndOrder: PropTypes.func.isRequired,
-  setPin: PropTypes.func.isRequired,
+  setPinRule: PropTypes.func.isRequired,
+  deletePinRule: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   pins: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
       number: PropTypes.number,
       state: PropTypes.state,
-      rules: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string,
-          time: PropTypes.date,
-          setTo: PropTypes.bool
-        })
-      )
     })
-  ).isRequired
+  ).isRequired,
+  rules: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      time: PropTypes.date,
+      setTo: PropTypes.bool,
+    })
+  )
 };
 
 
 function mapStateToProps(state) {
   return {
-    pins: state.device.get('pins').toJS(),
-    isLoading: state.device.get('isLoading')
+    pins: state.pins,
+    rules: state.rules,
+    isLoading: state.device.isLoading
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(deviceActions, dispatch);
+  return bindActionCreators(ruleActions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ControlPage);

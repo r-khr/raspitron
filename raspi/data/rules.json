@@ -1,0 +1,12 @@
+[
+    {
+        "pin_number": 14,
+        "set_to": true,
+        "time": "9:00"
+    },
+    {
+        "pin_number": 14,
+        "set_to": false,
+        "time": "21:00"
+    }
+]

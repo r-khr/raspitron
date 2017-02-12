@@ -9,7 +9,7 @@ class GpioManager():
 
     def start_pins(self):
         """ Use when starting application. """
-        pins = self.file.get()
+        pins = self.file.getPins()
         if self.gpio is not None:
             for pin in pins:
                 self.gpio.setup(pin['number'], self.gpio.OUT)
@@ -18,7 +18,7 @@ class GpioManager():
 
     def get_current_pins_status(self):
         """ Use when checking current pin status. """
-        pins = self.file.get()
+        pins = self.file.getPins()
         return self.gpio_pins_status(pins)
 
     def set_pin_status_and_save(self, pin_number, set_to):
@@ -27,7 +27,7 @@ class GpioManager():
         # we want to save this as current status in data file.
         """
         # Get Pins from saved file
-        pins = self.file.get()
+        pins = self.file.getPins()
 
         if self.gpio is not None:
             # Set GPIO Pin Status
@@ -36,11 +36,11 @@ class GpioManager():
         # Test Pins against GPIO or Update Pin Collection
         updated_pins = self.set_gpio_pins_status(pins, pin_number, set_to)
         # Save GPIO pins into data file
-        self.file.save(updated_pins)
+        self.file.savePins(updated_pins)
 
     def set_pins_and_save(self, pins):
         """ Use when sending server updated pins """
-        self.file.save(pins)
+        self.file.savePins(pins)
         if self.gpio is not None:
             for pin in pins:
                 self.gpio.output(pin['number'], pin['state'])
