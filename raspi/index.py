@@ -13,7 +13,6 @@ print "#-------   STARTING RASPITRON   --------#"
 print "#---------------------------------------#"
 
 # GPIO Preset
-GPIO.cleanup()
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
