@@ -3,13 +3,14 @@ from threading import Thread
 import time
 import schedule
 from GpioManager import GpioManager
+from FileManager import FileManager
 
 class Scheduler(Thread):
     """ Scheduler Thread Class """
-    def __init__(self, PINS, GPIO):
+    def __init__(self, GPIO):
         Thread.__init__(self)
-        self.pins = PINS
         self.manager = GpioManager(GPIO)
+        self.file = FileManager()
         self.daemon = True
 
     def job(self, pin_number, action_time, set_to):
@@ -18,25 +19,35 @@ class Scheduler(Thread):
         sched_str += ' set pin #' + str(pin_number) + ' to ' + str(set_to)
         print sched_str
 
-        self.manager.set_pin_status_and_save(pin_number, set_to)
+        self.manager.set_pin(pin_number, set_to)
 
     def run(self):
-        self.run_scheduler(self.pins)
+        rules = self.file.get_rules()
+        self.run_scheduler(rules)
 
         while True:
             schedule.run_pending()
             time.sleep(1)
 
-    def run_scheduler(self, pins):
+    def run_scheduler(self, rules):
         """ Function for schedule """
         # Clear Existing Schedule
         schedule.clear()
 
         # Go through pins and generate new schedule
-        for pin in pins:
-            if len(pin['rules']) > 0:
-                for rule in pin['rules']:
-                    _num = pin['number']
-                    _time = rule['time']
-                    _set = rule['setTo']
-                    schedule.every().day.at(_time).do(self.job, _num, _time, _set)
+        for rule in rules:
+            _num = rule['pin_number']
+            _time = rule['time']
+            _set = rule['set_to']
+            schedule.every().day.at(_time).do(self.job, _num, _time, _set)
+
+    def get_rules(self):
+        """ External get rules function """
+        rules = self.file.get_rules()
+        return rules
+
+    def set_rules(self, rules):
+        """ External get rules function """
+        rules = self.file.save_rules(rules)
+        self.run_scheduler(rules)
+        return rules

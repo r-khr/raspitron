@@ -80,16 +80,15 @@ class ControlPage extends Component {
   }
 
   render() {
-    const { pins, deletePinRuleAndOrder } = this.props;
+    const { pins, setPinRule, deletePinRule } = this.props;
     const pinList = Array.isArray(pins) && pins.length > 0 ? this.props.pins.map((pin, index) => (
       <PinControl
         key={index}
         title={pin.name}
         number={pin.number}
-        rules={pin.rules}
-        newPinRule={this.newPinRule.bind(this)}
-        editPinRule={this.editPinRule.bind(this)}
-        deletePinRule={deletePinRuleAndOrder.bind(this)}
+        rule={rule}
+        editPinRule={setPinRule}
+        deletePinRule={deletePinRule}
       />
     )) : (
       <div className={'row'}>

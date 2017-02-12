@@ -12,33 +12,52 @@ print "#-------   STARTING RASPITRON   --------#"
 print "#---------------------------------------#"
 
 # Get Pins from GpioManager
-print "--- Running initial pin states ---"
+print "### Running initial pin states"
 GPIO_MANAGER = GpioManager(None)
-PINS = GPIO_MANAGER.start_pins()
+GPIO_MANAGER.start_pins()
 
-print "--- Starting Scheduler ---"
-SCHEDULER = Scheduler(PINS, None)
+print "### Starting Scheduler"
+SCHEDULER = Scheduler(None)
 SCHEDULER.start()
 
-print "--- Started Raspitron Server ---"
+print "### Started Raspitron Server"
 
-@APP.route("/status", methods=['GET'])
-def get_status():
+@APP.route("/pins", methods=['GET'])
+def get_pins():
     """ Get pins and their status """
-    pins = GPIO_MANAGER.get_current_pins_status()
+    pins = GPIO_MANAGER.get_pins()
 
     return jsonify({
         'pins' : pins
     })
 
-@APP.route("/status", methods=['POST'])
-def post_status():
+@APP.route("/pins", methods=['POST'])
+def post_pins():
     """ Update pins and their status """
-    recieved_pins = request.get_json()
-    pins = GPIO_MANAGER.set_pins_and_save(recieved_pins)
-    SCHEDULER.run_scheduler(pins)
+    received_pins = request.get_json()
+    pins = GPIO_MANAGER.set_pins(received_pins)
+
     return jsonify({
         'pins' : pins
+    })
+
+@APP.route("/rules", methods=['GET'])
+def get_rules():
+    """ Get rules """
+    rules = SCHEDULER.get_rules()
+
+    return jsonify({
+        'rules' : rules
+    })
+
+@APP.route("/rules", methods=['POST'])
+def post_rules():
+    """ Update rules """
+    received_rules = request.get_json()
+    rules = SCHEDULER.set_rules(received_rules)
+
+    return jsonify({
+        'rules' : rules
     })
 
 if __name__ == "__main__":
