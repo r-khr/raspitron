@@ -30,7 +30,7 @@ class GpioManager(object):
         pins = self.file.get_pins()
 
         for pin in pins:
-            if pin['number'] == pin_number:
+            if pin['pin_number'] == pin_number:
                 pin['state'] = bool(set_to)
 
         pins = self.get_gpio_pins(pins)
@@ -40,14 +40,14 @@ class GpioManager(object):
         """ Set status of pins on GPIO """
         if self.gpio is not None:
             for pin in pins:
-                self.gpio.output(int(pin['number']), bool(pin['state']))
+                self.gpio.output(int(pin['pin_number']), bool(pin['state']))
         return pins
 
     def get_gpio_pins(self, pins):
         """ Get status of pins on GPIO """
         if self.gpio is not None:
             for pin in pins:
-                pin_number = int(pin['number'])
+                pin_number = int(pin['pin_number'])
                 pin_gpio_state = self.gpio.input(pin_number)
                 pin['state'] = bool(pin_gpio_state == self.gpio.HIGH)
         return pins

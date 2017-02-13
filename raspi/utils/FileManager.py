@@ -14,25 +14,25 @@ class FileManager(object):
         # Create a dictionary called pins to store the pin number, name, and pin state:
         with open(self.pin_path) as data_file:
             json_data = json.load(data_file)
-        print "pins.json -> Pin Data \n"
+        print "FILE [pins.json] -> DATA [pins] \n"
         return json_data
 
     def save_pins(self, data):
         """ Function for saves pins to file """
         with open(self.pin_path, 'w') as outfile:
             json.dump(data, outfile)
-        print "Pin Data -> pins.json \n"
+        print "DATA [pins] -> FILE [pins.json] \n"
 
     def get_rules(self):
         """ Function for loading rules to file """
         # Create a dictionary called pins to store the pin number, name, and pin state:
         with open(self.rule_path) as data_file:
             json_data = json.load(data_file)
-        print "rules.json -> Rule Data \n"
+        print "FILE [rules.json] -> DATA [rules] \n"
         return json_data
 
     def save_rules(self, data):
         """ Function for saves rules to file """
         with open(self.rule_path, 'w') as outfile:
             json.dump(data, outfile)
-        print "Rule Data -> rules.json \n"
+        print "DATA [rules] -> FILE [rules.json] \n"
